@@ -1,0 +1,3 @@
+rootProject.name = 'fw-monitoring-examples'
+include 'ktor-monitoring'
+

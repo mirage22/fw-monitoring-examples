@@ -1,0 +1,95 @@
+package com.wengnerits.monitoring.ktor.route
+
+import com.wengnerits.monitoring.ktor.config.MetricsService
+import com.wengnerits.monitoring.ktor.service.HalloServiceImpl
+import io.ktor.application.Application
+import io.ktor.application.call
+import io.ktor.application.install
+import io.ktor.http.ContentType
+import io.ktor.http.HttpStatusCode
+import io.ktor.http.content.TextContent
+import io.ktor.metrics.micrometer.MicrometerMetrics
+import io.ktor.response.respond
+import io.ktor.response.respondText
+import io.ktor.routing.Route
+import io.ktor.routing.get
+import io.ktor.routing.routing
+import io.micrometer.core.instrument.binder.jvm.ClassLoaderMetrics
+import io.micrometer.core.instrument.binder.jvm.JvmGcMetrics
+import io.micrometer.core.instrument.binder.jvm.JvmHeapPressureMetrics
+import io.micrometer.core.instrument.binder.jvm.JvmMemoryMetrics
+import io.micrometer.core.instrument.binder.jvm.JvmThreadMetrics
+import io.micrometer.core.instrument.binder.system.FileDescriptorMetrics
+import io.micrometer.core.instrument.binder.system.ProcessorMetrics
+import io.micrometer.core.instrument.binder.system.UptimeMetrics
+import io.prometheus.client.exporter.common.TextFormat
+import kotlinx.coroutines.runBlocking
+import org.koin.ktor.ext.inject
+import java.util.concurrent.TimeUnit
+
+fun Route.getMainRoutes() {
+
+    val halloService: HalloServiceImpl by inject()
+    val metricsService: MetricsService by inject()
+
+    get("/") {
+        metricsService.mainTimer().record {
+            metricsService.mainCount()
+            runBlocking {
+                call.respondText(halloService.hallo(), status = HttpStatusCode.OK)
+            }
+        }
+    }
+
+    get("/timer") {
+        metricsService.simpleTimer().record() {
+            runBlocking {
+                if (halloService.init()) {
+                    halloService.action()
+                }
+                call.respondText("This is simple timer", status = HttpStatusCode.OK)
+            }
+        }
+    }
+
+    get("/timer_long") {
+        metricsService.simpleTimer().record() {
+            runBlocking {
+                TimeUnit.SECONDS.sleep(1)
+                call.respondText("This is simple timer", status = HttpStatusCode.OK)
+            }
+        }
+    }
+}
+
+fun Application.registerMainRoutes() {
+
+    val metricsService: MetricsService by inject()
+
+    install(MicrometerMetrics) {
+        registry = metricsService.registry
+        meterBinders = listOf(
+            ClassLoaderMetrics(),
+            JvmMemoryMetrics(),
+            JvmHeapPressureMetrics(),
+            JvmThreadMetrics(),
+            JvmGcMetrics(),
+            FileDescriptorMetrics(),
+            ProcessorMetrics(),
+            UptimeMetrics()
+        )
+    }
+
+    routing {
+        getMainRoutes()
+
+        get("/metrics") {
+            call.respond(
+                TextContent(
+                    metricsService.registryScrape(),
+                    ContentType.parse(TextFormat.CONTENT_TYPE_004)
+                )
+            )
+        }
+    }
+}

@@ -1,0 +1,32 @@
+version: "3.8"
+services:
+
+  app:
+    image: ktor-monitoring:latest
+    restart: always
+    ports:
+      - "3800:3800"
+
+  prometheus:
+    image: prom/prometheus:v2.33.3
+    restart: always
+    ports:
+      - "3570:9090"
+    volumes:
+      - ./monitoring:/etc/prometheus/
+    links:
+      - app
+
+  grafana:
+    image: grafana/grafana-oss:8.5.0-51645pre-ubuntu
+    restart: always
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./monitoring/grafana:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    links:
+      - app
+      - prometheus

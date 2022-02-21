@@ -23,15 +23,11 @@ application {
     mainClass.set("com.wengnerits.monitoring.ktor.ApplicationKt")
 }
 
-repositories {
-    mavenCentral()
-    gradlePluginPortal()
-}
 
 dependencies {
     implementation("io.ktor:ktor-server-core:$ktor_version")
     implementation("io.ktor:ktor-server-netty:$ktor_version")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
     implementation("ch.qos.logback:logback-classic:$logback_version")
     implementation("io.ktor:ktor-serialization:$ktor_version")
     implementation("org.junit.jupiter:junit-jupiter:$junit_jupiter_version")
@@ -43,6 +39,9 @@ dependencies {
 
     testImplementation("io.ktor:ktor-server-tests:$ktor_version")
     testImplementation("org.jetbrains.kotlin:kotlin-test:$kotlin_version")
+}
+repositories {
+    mavenCentral()
 }
 
 tasks.test {

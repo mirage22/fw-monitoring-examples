@@ -26,14 +26,18 @@ import org.koin.core.component.KoinComponent
 
 class MetricsService : KoinComponent {
 
+    companion object {
+        const val APP_NAME = "ktor-monitoring"
+    }
+
     val registry = PrometheusMeterRegistry(PrometheusConfig.DEFAULT).apply {
-        config().commonTags("application", "ktor-monitoring")
+        config().commonTags("application", APP_NAME)
     }
 
     private val mainCounter = Counter
         .builder("main")
         .description("simple counter")
-        .tag("application", "counting")
+        .tag("application", APP_NAME)
         .tag("section", "main")
         .register(registry)
 

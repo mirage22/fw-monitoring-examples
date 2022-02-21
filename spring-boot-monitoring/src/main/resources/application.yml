@@ -1,0 +1,8 @@
+server:
+  port: 3801
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus

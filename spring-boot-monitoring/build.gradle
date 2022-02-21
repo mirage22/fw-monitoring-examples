@@ -1,0 +1,28 @@
+plugins {
+	id ("org.springframework.boot") version "2.6.3"
+	id ("io.spring.dependency-management") version "1.0.11.RELEASE"
+	id ("java")
+	id ("idea")
+	id ("eclipse")
+}
+
+group = "com.wengnerits.monitoring.spring.boot"
+version = "1.0-SNAPSHOT"
+
+java {
+	sourceCompatibility = JavaVersion.toVersion("17")
+	targetCompatibility = JavaVersion.toVersion("17")
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation "io.micrometer:micrometer-core:$micrometerVersion"
+	implementation "io.micrometer:micrometer-registry-prometheus:$micrometerVersion"
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}

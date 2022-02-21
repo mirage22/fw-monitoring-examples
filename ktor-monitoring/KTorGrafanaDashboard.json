@@ -1,46 +1,4 @@
 {
-  "__inputs": [
-    {
-      "name": "DS_KTORMONITORING",
-      "label": "KtorMonitoring",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "prometheus",
-      "pluginName": "Prometheus"
-    }
-  ],
-  "__requires": [
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "5.1.0"
-    },
-    {
-      "type": "panel",
-      "id": "graph",
-      "name": "Graph",
-      "version": "5.0.0"
-    },
-    {
-      "type": "datasource",
-      "id": "prometheus",
-      "name": "Prometheus",
-      "version": "5.0.0"
-    },
-    {
-      "type": "panel",
-      "id": "singlestat",
-      "name": "Singlestat",
-      "version": "5.0.0"
-    },
-    {
-      "type": "panel",
-      "id": "table",
-      "name": "Table",
-      "version": "5.0.0"
-    }
-  ],
   "annotations": {
     "list": [
       {
@@ -50,17 +8,25 @@
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
         "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
         "type": "dashboard"
       }
     ]
   },
   "description": "",
   "editable": true,
+  "fiscalYearStartMonth": 0,
   "gnetId": 5373,
   "graphTooltip": 0,
-  "id": null,
-  "iteration": 1602107688814,
+  "id": 6,
+  "iteration": 1645442027578,
   "links": [],
+  "liveNow": false,
   "panels": [
     {
       "gridPos": {
@@ -74,24 +40,52 @@
       "type": "row"
     },
     {
-      "cacheTimeout": null,
-      "colorBackground": true,
-      "colorPostfix": false,
-      "colorPrefix": false,
-      "colorValue": false,
-      "colors": [
-        "#F2495C",
-        "#F2495C",
-        "#299c46"
-      ],
-      "datasource": "${DS_KTORMONITORING}",
-      "format": "none",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "text": "DOWN"
+                },
+                "1": {
+                  "text": "UP"
+                }
+              },
+              "type": "value"
+            },
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "DOWN"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#F2495C"
+              },
+              {
+                "color": "#F2495C",
+                "value": 0
+              },
+              {
+                "color": "#299c46",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
       },
       "gridPos": {
         "h": 3,
@@ -100,90 +94,59 @@
         "y": 1
       },
       "id": 4,
-      "interval": null,
       "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
       "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "options": {},
-      "postfix": "",
-      "postfixFontSize": "120%",
-      "prefix": "",
-      "prefixFontSize": "110%",
-      "rangeMaps": [
-        {
-          "from": "1",
-          "text": "UP",
-          "to": "1"
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
         },
-        {
-          "from": "0",
-          "text": "DOWN",
-          "to": "1"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false
+        "textMode": "auto"
       },
-      "tableColumn": "",
+      "pluginVersion": "8.5.0-51645pre",
       "targets": [
         {
-          "expr": "up{application=\"$application\",instance=\"$instance\"}",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "eeDP0Cank"
+          },
+          "exemplar": true,
+          "expr": "up{}",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 1,
+          "legendFormat": "",
           "refId": "A"
         }
       ],
-      "thresholds": "0, 1",
       "title": "Status",
-      "type": "singlestat",
-      "valueFontSize": "200%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "UP",
-          "value": "1"
-        },
-        {
-          "op": "=",
-          "text": "DOWN",
-          "value": "0"
-        },
-        {
-          "op": "=",
-          "text": "DOWN",
-          "value": "null"
-        }
-      ],
-      "valueName": "current"
+      "type": "stat"
     },
     {
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_KTORMONITORING}",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "eeDP0Cank"
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 6,
         "w": 4,
         "x": 5,
         "y": 1
       },
+      "hiddenSeries": false,
       "id": 50,
       "interval": "1s",
       "legend": {
@@ -201,8 +164,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "8.5.0-51645pre",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -230,9 +196,7 @@
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "Total requests",
       "tooltip": {
         "shared": true,
@@ -241,33 +205,24 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
       "yaxes": [
         {
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         },
         {
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
@@ -275,17 +230,13 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_KTORMONITORING}",
       "editable": true,
       "error": false,
       "fill": 1,
+      "fillGradient": 0,
       "grid": {
         "leftLogBase": 1,
-        "leftMax": null,
-        "leftMin": null,
-        "rightLogBase": 1,
-        "rightMax": null,
-        "rightMin": null
+        "rightLogBase": 1
       },
       "gridPos": {
         "h": 6,
@@ -293,6 +244,7 @@
         "x": 9,
         "y": 1
       },
+      "hiddenSeries": false,
       "id": 47,
       "legend": {
         "avg": false,
@@ -307,8 +259,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "8.5.0-51645pre",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -318,8 +273,14 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(jvm_memory_used_bytes{application=\"$application\", instance=\"$instance\", area=\"heap\"})",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "eeDP0Cank"
+          },
+          "exemplar": true,
+          "expr": "sum(jvm_memory_used_bytes{application=\"$application\", area=\"heap\"})",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 2,
           "legendFormat": "used",
           "metric": "",
@@ -327,16 +288,28 @@
           "step": 2400
         },
         {
-          "expr": "sum(jvm_memory_committed_bytes{application=\"$application\", instance=\"$instance\", area=\"heap\"})",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "eeDP0Cank"
+          },
+          "exemplar": true,
+          "expr": "sum(jvm_memory_committed_bytes{application=\"$application\", area=\"heap\"})",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 2,
           "legendFormat": "committed",
           "refId": "B",
           "step": 2400
         },
         {
-          "expr": "sum(jvm_memory_max_bytes{application=\"$application\", instance=\"$instance\", area=\"heap\"})",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "eeDP0Cank"
+          },
+          "exemplar": true,
+          "expr": "sum(jvm_memory_max_bytes{application=\"$application\", area=\"heap\"})",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 2,
           "legendFormat": "max",
           "refId": "C",
@@ -344,9 +317,7 @@
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "JVM Heap",
       "tooltip": {
         "msResolution": false,
@@ -357,9 +328,7 @@
       "type": "graph",
       "x-axis": true,
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
@@ -371,40 +340,38 @@
       "yaxes": [
         {
           "format": "bytes",
-          "label": null,
           "logBase": 1,
-          "max": null,
           "min": 0,
           "show": true
         },
         {
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
       "aliasColors": {},
       "bars": false,
-      "cacheTimeout": null,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_KTORMONITORING}",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "eeDP0Cank"
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 6,
         "w": 5,
         "x": 14,
         "y": 1
       },
+      "hiddenSeries": false,
       "id": 32,
       "legend": {
         "alignAsTable": true,
@@ -421,9 +388,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
-      "pluginVersion": "6.2.1",
+      "pluginVersion": "8.5.0-51645pre",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -443,9 +412,7 @@
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "Process CPU Usage",
       "tooltip": {
         "shared": true,
@@ -455,9 +422,7 @@
       "transparent": true,
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
@@ -465,40 +430,33 @@
         {
           "decimals": 2,
           "format": "percent",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         },
         {
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": false
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
       "aliasColors": {},
       "bars": false,
-      "cacheTimeout": null,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_KTORMONITORING}",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 6,
         "w": 5,
         "x": 19,
         "y": 1
       },
+      "hiddenSeries": false,
       "id": 31,
       "legend": {
         "avg": false,
@@ -513,9 +471,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
-      "pluginVersion": "6.2.1",
+      "pluginVersion": "8.5.0-51645pre",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -525,16 +485,21 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(system_cpu_usage{application=\"$application\", instance=\"$instance\"}[1m])*100",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "eeDP0Cank"
+          },
+          "exemplar": true,
+          "expr": "rate(system_cpu_usage{application=\"$application\"}[1m])*100",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 1,
+          "legendFormat": "",
           "refId": "A"
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "CPU Usage",
       "tooltip": {
         "shared": true,
@@ -544,55 +509,63 @@
       "transparent": true,
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
       "yaxes": [
         {
           "format": "percent",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         },
         {
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
-      "cacheTimeout": null,
-      "colorBackground": false,
-      "colorPostfix": false,
-      "colorPrefix": false,
-      "colorValue": true,
-      "colors": [
-        "#d44a3a",
-        "rgba(237, 129, 40, 0.89)",
-        "#299c46"
-      ],
-      "datasource": "${DS_KTORMONITORING}",
-      "decimals": 1,
-      "format": "dthms",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 1,
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "N/A"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#d44a3a"
+              },
+              {
+                "color": "rgba(237, 129, 40, 0.89)",
+                "value": 60
+              },
+              {
+                "color": "#299c46",
+                "value": 120
+              }
+            ]
+          },
+          "unit": "dthms"
+        },
+        "overrides": []
       },
       "gridPos": {
         "h": 3,
@@ -603,59 +576,39 @@
       "id": 18,
       "interval": "",
       "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
       "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "options": {},
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
       },
-      "tableColumn": "",
+      "pluginVersion": "8.5.0-51645pre",
       "targets": [
         {
-          "expr": "process_uptime_seconds{application=\"$application\", instance=\"$instance\"}",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "eeDP0Cank"
+          },
+          "exemplar": true,
+          "expr": "process_uptime_seconds{application=\"$application\"}",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 1,
+          "legendFormat": "",
           "refId": "A"
         }
       ],
-      "thresholds": "60,120",
       "title": "Up Time",
-      "type": "singlestat",
-      "valueFontSize": "120%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "null"
-        }
-      ],
-      "valueName": "current"
+      "type": "stat"
     },
     {
       "collapsed": false,
@@ -675,14 +628,19 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_KTORMONITORING}",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "eeDP0Cank"
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 10,
         "w": 7,
         "x": 0,
         "y": 8
       },
+      "hiddenSeries": false,
       "id": 34,
       "interval": "1s",
       "legend": {
@@ -700,8 +658,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "8.5.0-51645pre",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -754,9 +715,7 @@
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "Request and Error Rates (per sec)",
       "tooltip": {
         "shared": true,
@@ -765,51 +724,44 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
       "yaxes": [
         {
-          "decimals": null,
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         },
         {
-          "decimals": null,
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
       "aliasColors": {},
       "bars": false,
-      "cacheTimeout": null,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_KTORMONITORING}",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "eeDP0Cank"
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 10,
         "w": 5,
         "x": 7,
         "y": 8
       },
+      "hiddenSeries": false,
       "id": 38,
       "interval": "1m",
       "legend": {
@@ -827,9 +779,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
-      "pluginVersion": "6.2.1",
+      "pluginVersion": "8.5.0-51645pre",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -848,9 +802,7 @@
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "Requests per minute",
       "tooltip": {
         "shared": true,
@@ -859,33 +811,24 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
       "yaxes": [
         {
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         },
         {
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
@@ -893,14 +836,19 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_KTORMONITORING}",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "eeDP0Cank"
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 10,
         "w": 5,
         "x": 12,
         "y": 8
       },
+      "hiddenSeries": false,
       "id": 29,
       "legend": {
         "avg": false,
@@ -917,8 +865,11 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "8.5.0-51645pre",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -937,9 +888,7 @@
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "Average Response time",
       "tooltip": {
         "shared": true,
@@ -948,9 +897,7 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
@@ -958,24 +905,18 @@
         {
           "decimals": 6,
           "format": "ms",
-          "label": null,
           "logBase": 1,
-          "max": null,
           "min": "0",
           "show": true
         },
         {
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
@@ -985,7 +926,10 @@
           "value": "current"
         }
       ],
-      "datasource": "${DS_KTORMONITORING}",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "eeDP0Cank"
+      },
       "fontSize": "100%",
       "gridPos": {
         "h": 10,
@@ -996,7 +940,6 @@
       "id": 16,
       "interval": "",
       "links": [],
-      "options": {},
       "pageSize": 10,
       "scroll": true,
       "showHeader": true,
@@ -1007,7 +950,7 @@
       "styles": [
         {
           "alias": "",
-          "colorMode": null,
+          "align": "auto",
           "colors": [
             "rgba(245, 54, 54, 0.9)",
             "rgba(237, 129, 40, 0.89)",
@@ -1029,25 +972,24 @@
           "refId": "A"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Top 10 APIs",
       "transform": "timeseries_aggregations",
-      "type": "table"
+      "type": "table-old"
     },
     {
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_KTORMONITORING}",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 6,
         "w": 6,
         "x": 0,
         "y": 18
       },
+      "hiddenSeries": false,
       "id": 14,
       "legend": {
         "avg": false,
@@ -1063,8 +1005,11 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "8.5.0-51645pre",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1074,18 +1019,22 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(ktor_http_server_requests_seconds{instance=\"$instance\", route!=\"/metrics\", quantile=\"0.95\"}[1m])",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "eeDP0Cank"
+          },
+          "exemplar": true,
+          "expr": "rate(ktor_http_server_requests_seconds{route!=\"/metrics\", quantile=\"0.95\"}[1m])",
           "format": "time_series",
           "instant": false,
+          "interval": "",
           "intervalFactor": 1,
           "legendFormat": "{{route}} 95%",
           "refId": "A"
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "Response time of 95% of requests",
       "tooltip": {
         "shared": true,
@@ -1094,34 +1043,25 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
       "yaxes": [
         {
-          "decimals": null,
           "format": "s",
           "label": "Time",
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         },
         {
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": false
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
@@ -1129,14 +1069,15 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_KTORMONITORING}",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 6,
         "w": 6,
         "x": 6,
         "y": 18
       },
+      "hiddenSeries": false,
       "id": 51,
       "legend": {
         "avg": false,
@@ -1152,8 +1093,11 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "8.5.0-51645pre",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1163,18 +1107,22 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(ktor_http_server_requests_seconds{instance=\"$instance\", route!=\"/metrics\", quantile=\"0.9\"}[1m])",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "eeDP0Cank"
+          },
+          "exemplar": true,
+          "expr": "rate(ktor_http_server_requests_seconds{route!=\"/metrics\", quantile=\"0.9\"}[1m])",
           "format": "time_series",
           "instant": false,
+          "interval": "",
           "intervalFactor": 1,
           "legendFormat": "{{route}} 95%",
           "refId": "A"
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "Response time of 90% of requests",
       "tooltip": {
         "shared": true,
@@ -1183,34 +1131,25 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
       "yaxes": [
         {
-          "decimals": null,
           "format": "s",
           "label": "Time",
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         },
         {
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": false
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
@@ -1218,14 +1157,15 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_KTORMONITORING}",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 6,
         "w": 6,
         "x": 12,
         "y": 18
       },
+      "hiddenSeries": false,
       "id": 43,
       "legend": {
         "avg": false,
@@ -1241,8 +1181,11 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "8.5.0-51645pre",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1252,17 +1195,21 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(ktor_http_server_requests_seconds{instance=\"$instance\", route!=\"/metrics\", quantile=\"0.5\"}[1m])",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "eeDP0Cank"
+          },
+          "exemplar": true,
+          "expr": "rate(ktor_http_server_requests_seconds{route!=\"/metrics\", quantile=\"0.5\"}[1m])",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 1,
           "legendFormat": "{{route}} 50%",
           "refId": "D"
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "Response time of 50% of requests",
       "tooltip": {
         "shared": true,
@@ -1271,34 +1218,25 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
       "yaxes": [
         {
-          "decimals": null,
           "format": "ms",
           "label": "Time",
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         },
         {
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": false
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
@@ -1306,14 +1244,19 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_KTORMONITORING}",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "eeDP0Cank"
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 10,
         "w": 7,
         "x": 0,
         "y": 24
       },
+      "hiddenSeries": false,
       "id": 48,
       "interval": "1s",
       "legend": {
@@ -1331,8 +1274,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "8.5.0-51645pre",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1368,9 +1314,7 @@
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "Error Rates (per sec)",
       "tooltip": {
         "shared": true,
@@ -1379,33 +1323,24 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
       "yaxes": [
         {
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         },
         {
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
@@ -1415,7 +1350,10 @@
           "value": "total"
         }
       ],
-      "datasource": "${DS_KTORMONITORING}",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "eeDP0Cank"
+      },
       "fontSize": "100%",
       "gridPos": {
         "h": 10,
@@ -1426,18 +1364,16 @@
       "id": 49,
       "interval": "",
       "links": [],
-      "options": {},
       "pageSize": 10,
       "scroll": true,
       "showHeader": true,
       "sort": {
-        "col": null,
         "desc": false
       },
       "styles": [
         {
           "alias": "",
-          "colorMode": null,
+          "align": "auto",
           "colors": [
             "rgba(245, 54, 54, 0.9)",
             "rgba(237, 129, 40, 0.89)",
@@ -1462,25 +1398,25 @@
           "refId": "A"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Errors by API",
       "transform": "timeseries_aggregations",
-      "type": "table"
+      "type": "table-old"
     },
     {
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_KTORMONITORING}",
+      "description": "some timers",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 10,
         "w": 7,
         "x": 15,
         "y": 24
       },
+      "hiddenSeries": false,
       "id": 52,
       "interval": "1s",
       "legend": {
@@ -1500,8 +1436,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "8.5.0-51645pre",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1511,19 +1450,35 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum (increase(ktor_http_server_requests_seconds_count{status=\"200\", route=\"/user\", method=\"POST\"}[1m]))",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "eeDP0Cank"
+          },
+          "exemplar": true,
+          "expr": "sum (increase(ktor_http_server_requests_seconds_count{status=\"200\", route=\"/timer\", method=\"GET\"}[1m]))",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "New users",
-          "refId": "D",
+          "legendFormat": "timer",
+          "refId": "A",
           "step": 2
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "eeDP0Cank"
+          },
+          "exemplar": true,
+          "expr": "sum (increase(ktor_http_server_requests_seconds_count{status=\"200\", route=\"/timer_long\", method=\"GET\"}[1m]))",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "timer_long",
+          "refId": "B"
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
-      "title": "New users",
+      "title": "Times",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1531,9 +1486,7 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
@@ -1541,74 +1494,53 @@
         {
           "decimals": 0,
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         },
         {
           "decimals": 0,
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     }
   ],
   "refresh": "5s",
-  "schemaVersion": 16,
+  "schemaVersion": 35,
   "style": "dark",
   "tags": [],
   "templating": {
     "list": [
       {
-        "allValue": null,
-        "current": {},
-        "datasource": "${DS_KTORMONITORING}",
-        "definition": "",
+        "current": {
+          "selected": false,
+          "text": "ktor-monitoring",
+          "value": "ktor-monitoring"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "eeDP0Cank"
+        },
+        "definition": "label_values(application)",
         "hide": 0,
         "includeAll": false,
         "label": "Application",
         "multi": false,
         "name": "application",
         "options": [],
-        "query": "label_values(application)",
+        "query": {
+          "query": "label_values(application)",
+          "refId": "StandardVariableQuery"
+        },
         "refresh": 2,
         "regex": "",
         "skipUrlSync": false,
         "sort": 0,
         "tagValuesQuery": "",
-        "tags": [],
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
-      },
-      {
-        "allValue": null,
-        "current": {},
-        "datasource": "${DS_KTORMONITORING}",
-        "definition": "",
-        "hide": 0,
-        "includeAll": false,
-        "label": "instance",
-        "multi": false,
-        "name": "instance",
-        "options": [],
-        "query": "label_values(up{application=\"$application\"}, instance)",
-        "refresh": 2,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
-        "tagValuesQuery": "",
-        "tags": [],
         "tagsQuery": "",
         "type": "query",
         "useTags": false
@@ -1647,5 +1579,6 @@
   "timezone": "",
   "title": "KTorMonitoring",
   "uid": "omBsPz1Wz",
-  "version": 6
+  "version": 7,
+  "weekStart": ""
 }

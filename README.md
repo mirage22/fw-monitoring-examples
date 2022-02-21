@@ -10,6 +10,12 @@ JVM frameworks.
 - Grafana 
 - Prometheus
 
+### Frameworks
+- KTor, Koin
+- Micronaut
+- Spring-Boot
+- Quarkus
+
 # Steps
 1. appropriate docker images should be downloaded
 2. build desired framework docker image

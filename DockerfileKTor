@@ -5,16 +5,16 @@ COPY . /app_build
 
 WORKDIR /app_build
 
-RUN ./gradlew clean build
+RUN ./gradlew clean build -p ktor-monitoring
 
 FROM eclipse-temurin:17-centos7
 
 RUN mkdir /app
 RUN mkdir /app/resources
 
-COPY --from=build /app_build/ktor-monitoring/build/libs/ktor-monitoring*all.jar /app/ktor-monitoring.jar
+COPY --from=build /app_build/ktor-monitoring/build/libs/*-monitoring*all.jar /app/app-monitoring.jar
 COPY --from=build /app_build/ktor-monitoring/src/main/resources/ /app/resources/
 
 WORKDIR /app
 
-CMD ["sh", "-c", "java -jar ktor-monitoring.jar"]
+CMD ["sh", "-c", "java -jar app-monitoring.jar"]

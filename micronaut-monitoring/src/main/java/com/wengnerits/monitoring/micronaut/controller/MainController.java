@@ -42,8 +42,4 @@ public class MainController {
         return halloService.hallo();
     }
 
-    @Get(uri = "/prometheus", processes = MediaType.TEXT_PLAIN)
-    public String prometheus(){
-        return registry.scrape();
-    }
 }

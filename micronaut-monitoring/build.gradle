@@ -14,7 +14,7 @@ repositories {
 }
 
 application {
-    mainClass.set("com.wengnerits.monitoring.micronaut.Application")
+    mainClass.set("com.wengnerits.monitoring.micronaut.ApplicationMain")
 }
 
 dependencies {
@@ -32,8 +32,8 @@ dependencies {
 }
 
 java {
-    sourceCompatibility = JavaVersion.toVersion("11")
-    targetCompatibility = JavaVersion.toVersion("11")
+    sourceCompatibility = 17
+    targetCompatibility = 17
 }
 
 graalvmNative.toolchainDetection = false

@@ -1,21 +1,32 @@
 plugins {
+	id("java")
+	id("idea")
+	id("eclipse")
 	id ("org.springframework.boot") version "2.6.3"
+	id("com.github.johnrengelman.shadow") version "7.1.1"
 	id ("io.spring.dependency-management") version "1.0.11.RELEASE"
-	id ("java")
-	id ("idea")
-	id ("eclipse")
 }
 
 group = "com.wengnerits.monitoring.spring.boot"
 version = "1.0-SNAPSHOT"
 
 java {
-	sourceCompatibility = JavaVersion.toVersion("17")
-	targetCompatibility = JavaVersion.toVersion("17")
+	sourceCompatibility = 17
+	targetCompatibility = 17
 }
 
 repositories {
 	mavenCentral()
+}
+
+jar {
+	enabled = true
+}
+
+bootJar {
+	manifest {
+		attributes 'Start-Class': 'com.wengnerits.monitoring.spring.boot.ApplicationMain'
+	}
 }
 
 dependencies {

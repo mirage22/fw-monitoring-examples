@@ -1,19 +1,37 @@
 plugins {
-    id 'java'
+    id("java")
+    id("java-library")
+    id("idea")
+    id("eclipse")
+    id("io.quarkus") version "${quarkusPlatformVersion}"
 }
 
-group 'com.wengnerits.monitoring.quarkus.java'
-version 'unspecified'
+group 'com.wengnerits.monitoring.quarkus'
+version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
 }
 
+
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
+    implementation("io.quarkus:quarkus-micrometer-registry-prometheus")
+    implementation("io.quarkus:quarkus-resteasy")
+    testImplementation("io.quarkus:quarkus-junit5")
+    testImplementation("io.rest-assured:rest-assured")
 }
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
 
 test {
     useJUnitPlatform()
+}
+
+compileJava {
+    options.encoding = 'UTF-8'
 }

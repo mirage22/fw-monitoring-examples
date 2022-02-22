@@ -15,22 +15,21 @@
  *  along with fw-monitoring-examples. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.wengnerits.monitoring.micronaut.controller;
+package com.wengnerits.monitoring.quarkus.controller;
 
-
-import com.wengnerits.monitoring.micronaut.service.HalloService;
+import com.wengnerits.monitoring.quarkus.service.HalloService;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
-import io.micrometer.prometheus.PrometheusMeterRegistry;
-import io.micronaut.http.MediaType;
-import io.micronaut.http.annotation.Controller;
-import io.micronaut.http.annotation.Get;
-import jakarta.inject.Inject;
 
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
-@Controller("/")
+@Path("/")
 public class MainController {
 
     private final MeterRegistry registry;
@@ -39,25 +38,27 @@ public class MainController {
     private final HalloService halloService;
     private final Map<String, Counter> counters = new HashMap<>();
 
-    @Inject
-    public MainController(PrometheusMeterRegistry registry, HalloService halloService) {
+    MainController(final MeterRegistry registry, final HalloService halloService){
         this.registry = registry;
-        this.mainCounter = Counter.builder("micronaut-main-counter")
-                .tag("application", "micronaut")
+        this.mainCounter = Counter.builder("quarkus-main-counter")
+                .tag("application", "quarkus")
                 .register(registry);
-        this.nameCounterBuilder = Counter.builder("micronaut-name-counter")
-                .tag("application", "micronaut");
+        this.nameCounterBuilder = Counter.builder("quarkus-name-counter")
+                .tag("application", "quarkus");
         this.halloService = halloService;
     }
 
-    @Get(processes = MediaType.TEXT_PLAIN)
-    public String hello() {
+    @GET
+    @Produces("text/plain")
+    public String hello(){
         mainCounter.increment();
         return halloService.hallo();
     }
 
-    @Get(processes = MediaType.TEXT_PLAIN, value = "/{name}")
-    public String halloWithName(String name){
+    @GET
+    @Produces("text/plain")
+    @Path("{name}")
+    public String halloWithName(@PathParam("name") String name){
         nameCounterBuilder.tag("name", name).register(registry);
         getNameCounter(name).increment();
         return """
@@ -74,4 +75,7 @@ public class MainController {
             return counter;
         }
     }
+
+
+
 }

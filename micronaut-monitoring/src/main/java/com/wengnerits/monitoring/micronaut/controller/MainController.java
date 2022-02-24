@@ -25,6 +25,7 @@ import io.micrometer.prometheus.PrometheusMeterRegistry;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
+import io.prometheus.client.exporter.common.TextFormat;
 import jakarta.inject.Inject;
 
 import java.util.HashMap;
@@ -56,13 +57,18 @@ public class MainController {
         return halloService.hallo();
     }
 
-    @Get(processes = MediaType.TEXT_PLAIN, value = "/{name}")
+    @Get(processes = MediaType.TEXT_PLAIN, value = "{name}")
     public String halloWithName(String name){
         nameCounterBuilder.tag("name", name).register(registry);
         getNameCounter(name).increment();
         return """
                 Hallo name '$name'
                 """.replace("$name", name);
+    }
+
+    @Get(processes = MediaType.TEXT_PLAIN, value = "metrics")
+    public String metrics(){
+        return ((PrometheusMeterRegistry)registry).scrape(TextFormat.CONTENT_TYPE_004);
     }
 
     private Counter getNameCounter(String name){

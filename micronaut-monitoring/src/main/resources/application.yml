@@ -10,14 +10,12 @@ micronaut:
         enabled: true
         step: PT1M
         descriptions: true
-
 endpoints:
   metrics:
     enabled: Boolean
     sensitive: Boolean
   prometheus:
     sensitive: false
-
 netty:
   default:
     allocator:

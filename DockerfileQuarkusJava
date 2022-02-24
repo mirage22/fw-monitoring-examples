@@ -1,0 +1,18 @@
+FROM eclipse-temurin:17-centos7 as build
+RUN mkdir /app_build
+COPY . /app_build
+
+WORKDIR /app_build
+
+RUN ./gradlew clean build -p quarkus-java-monitoring
+
+FROM eclipse-temurin:17-centos7
+
+RUN mkdir /app
+RUN mkdir /app/resources
+
+COPY --from=build /app_build/quarkus-java-monitoring/build/quarkus-app /app
+
+WORKDIR /app
+
+CMD ["sh", "-c", "java -jar quarkus-run.jar"]

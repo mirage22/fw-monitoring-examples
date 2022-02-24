@@ -16,9 +16,16 @@ JVM frameworks.
 - Spring-Boot
 - Quarkus
 
-# Steps
+# How to prepare
+execute the following commads
 1. appropriate docker images should be downloaded
-2. build desired framework docker image
-3. run the docker-compose file
+2. Building Framework Images: `$ buildMonitoringContainers.sh`
+3. Run a docker-compose file
 
-![KTor-Monitoring](fw-ktor-monitoring-grafana.png)
+# How to access Prometheus and Grafana
+1. Promeheus `http:\\localhost:3500`
+2. Grafana `http:\\localhost:3000`
+
+
+
+![Frameworks-Monitoring-experiences](fw-ktor-monitoring-grafana.png)

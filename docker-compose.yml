@@ -19,17 +19,24 @@ services:
     ports:
       - "3801:3801"
 
+  app-quarkus-java:
+    image: quarkus-java-monitoring:latest
+    restart: always
+    ports:
+      - "3803:3803"
+
   prometheus:
     image: prom/prometheus:v2.33.3
     restart: always
     ports:
-      - "3570:9090"
+      - "3500:9090"
     volumes:
       - ./monitoring:/etc/prometheus/
     links:
       - app-ktor
       - app-micronaut
       - app-spring-boot
+      - app-quarkus-java
 
   grafana:
     image: grafana/grafana-oss:8.5.0-51645pre-ubuntu
@@ -45,4 +52,5 @@ services:
       - app-ktor
       - app-micronaut
       - app-spring-boot
+      - app-quarkus-java
       - prometheus

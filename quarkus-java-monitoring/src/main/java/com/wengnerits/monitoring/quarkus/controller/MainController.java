@@ -20,13 +20,14 @@ package com.wengnerits.monitoring.quarkus.controller;
 import com.wengnerits.monitoring.quarkus.service.HalloService;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.prometheus.PrometheusMeterRegistry;
+import io.prometheus.client.exporter.common.TextFormat;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 @Path("/")
@@ -38,7 +39,7 @@ public class MainController {
     private final HalloService halloService;
     private final Map<String, Counter> counters = new HashMap<>();
 
-    MainController(final MeterRegistry registry, final HalloService halloService){
+    MainController(final MeterRegistry registry, final HalloService halloService) {
         this.registry = registry;
         this.mainCounter = Counter.builder("quarkus-main-counter")
                 .tag("application", "quarkus")
@@ -50,7 +51,7 @@ public class MainController {
 
     @GET
     @Produces("text/plain")
-    public String hello(){
+    public String hello() {
         mainCounter.increment();
         return halloService.hallo();
     }
@@ -58,7 +59,7 @@ public class MainController {
     @GET
     @Produces("text/plain")
     @Path("{name}")
-    public String halloWithName(@PathParam("name") String name){
+    public String halloWithName(@PathParam("name") String name) {
         nameCounterBuilder.tag("name", name).register(registry);
         getNameCounter(name).increment();
         return """
@@ -66,8 +67,9 @@ public class MainController {
                 """.replace("$name", name);
     }
 
-    private Counter getNameCounter(String name){
-        if (counters.containsKey(name)){
+
+    private Counter getNameCounter(String name) {
+        if (counters.containsKey(name)) {
             return counters.get(name);
         } else {
             Counter counter = nameCounterBuilder.tag("name", name).register(registry);
@@ -75,7 +77,6 @@ public class MainController {
             return counter;
         }
     }
-
 
 
 }

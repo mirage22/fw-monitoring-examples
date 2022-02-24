@@ -20,19 +20,24 @@ package com.wengnerits.monitoring.spring.boot.controller;
 import com.wengnerits.monitoring.spring.boot.service.HalloService;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.prometheus.PrometheusMeterRegistry;
+import io.prometheus.client.exporter.common.TextFormat;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class MainController {
 
+    private final PrometheusMeterRegistry registry;
     private final HalloService halloService;
     private final Counter indexCounter;
 
     @Autowired
-    public MainController(MeterRegistry registry, HalloService halloService) {
+    public MainController(PrometheusMeterRegistry registry, HalloService halloService) {
         this.halloService = halloService;
+        this.registry = registry;
         indexCounter = registry.counter("index_counter");
     }
 
@@ -41,4 +46,10 @@ public class MainController {
         indexCounter.increment();
         return halloService.hallo();
     }
+
+    @GetMapping(value = "/metrics", produces = MediaType.TEXT_PLAIN_VALUE )
+    public String metrics() {
+        return registry.scrape(TextFormat.CONTENT_TYPE_004);
+    }
+
 }

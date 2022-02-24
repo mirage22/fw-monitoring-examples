@@ -1,16 +1,20 @@
+global:
+  scrape_interval: 5s
 scrape_configs:
   - job_name: 'ktor-monitoring'
     metrics_path: /metrics
-    scrape_interval: 5s
     static_configs:
       - targets: ['app-ktor:3800']
   - job_name: 'micronaut-monitoring'
-    metrics_path: /prometheus
-    scrape_interval: 5s
+    metrics_path: /metrics
     static_configs:
       - targets: [ 'app-micronaut:3802' ]
   - job_name: 'spring-boot-monitoring'
-    metrics_path: /actuator/prometheus
+    metrics_path: /metrics
     scrape_interval: 5s
     static_configs:
       - targets: [ 'app-spring-boot:3801' ]
+  - job_name: 'quarkus-java-monitoring'
+    metrics_path: /metrics
+    static_configs:
+      - targets: [ 'app-quarkus-java:3803' ]

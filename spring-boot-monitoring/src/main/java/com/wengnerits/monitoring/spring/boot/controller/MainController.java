@@ -35,16 +35,16 @@ public class MainController {
     public MainController(PrometheusMeterRegistry registry, HalloService halloService) {
         this.halloService = halloService;
         this.registry = registry;
-        indexCounter = registry.counter("index_counter");
+        indexCounter = registry.counter("index_counter", "application", "spring-boot");
     }
 
-    @GetMapping("/")
+    @GetMapping(value = "/", produces = MediaType.TEXT_PLAIN_VALUE)
     public String index() {
         indexCounter.increment();
         return halloService.hallo();
     }
 
-    @GetMapping(value = "/metrics", produces = MediaType.TEXT_PLAIN_VALUE )
+    @GetMapping(value = "/metrics", produces = MediaType.TEXT_PLAIN_VALUE)
     public String metrics() {
         return registry.scrape(TextFormat.CONTENT_TYPE_004);
     }

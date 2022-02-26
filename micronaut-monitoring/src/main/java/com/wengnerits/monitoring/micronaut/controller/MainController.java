@@ -17,67 +17,56 @@
 
 package com.wengnerits.monitoring.micronaut.controller;
 
-
 import com.wengnerits.monitoring.micronaut.service.HalloService;
 import io.micrometer.core.instrument.Counter;
-import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.prometheus.PrometheusMeterRegistry;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
+import io.micronaut.http.annotation.PathVariable;
 import io.prometheus.client.exporter.common.TextFormat;
-import jakarta.inject.Inject;
-
 import java.util.HashMap;
 import java.util.Map;
 
-@Controller("/")
+@Controller
 public class MainController {
 
-    private final MeterRegistry registry;
-    private final Counter mainCounter;
+    private final Counter indexCounter;
     private final Counter.Builder nameCounterBuilder;
     private final HalloService halloService;
+    private final PrometheusMeterRegistry registry;
+
     private final Map<String, Counter> counters = new HashMap<>();
 
-    @Inject
     public MainController(PrometheusMeterRegistry registry, HalloService halloService) {
-        this.registry = registry;
-        this.mainCounter = Counter.builder("micronaut-main-counter")
-                .tag("application", "micronaut")
-                .register(registry);
-        this.nameCounterBuilder = Counter.builder("micronaut-name-counter")
-                .tag("application", "micronaut");
+        this.indexCounter = registry.counter("index_counter", "application", "micronaut");
+        this.nameCounterBuilder = Counter.builder("name_counter").tag("application", "micronaut");
         this.halloService = halloService;
+        this.registry = registry;
     }
 
     @Get(processes = MediaType.TEXT_PLAIN)
-    public String hello() {
-        mainCounter.increment();
+    public String index() {
+        indexCounter.increment();
         return halloService.hallo();
     }
 
-    @Get(processes = MediaType.TEXT_PLAIN, value = "{name}")
-    public String halloWithName(String name){
+    @Get(processes = MediaType.TEXT_PLAIN, value = "/hallo/{name}")
+    public String hallo(@PathVariable String name) {
         nameCounterBuilder.tag("name", name).register(registry);
         getNameCounter(name).increment();
         return """
-                Hallo name '$name'
-                """.replace("$name", name);
+            Hallo name '$name'
+            """.replace("$name", name);
     }
 
     @Get(processes = MediaType.TEXT_PLAIN, value = "metrics")
-    public String metrics(){
-        return ((PrometheusMeterRegistry)registry).scrape(TextFormat.CONTENT_TYPE_004);
+    public String metrics() {
+        return registry.scrape(TextFormat.CONTENT_TYPE_004);
     }
 
-    private Counter getNameCounter(String name){
-        if (counters.containsKey(name)){
-            return counters.get(name);
-        } else {
-            Counter counter = nameCounterBuilder.tag("name", name).register(registry);
-            counters.put(name, counter);
-            return counter;
-        }
+    private Counter getNameCounter(String name) {
+        return counters.computeIfAbsent(name, (k) -> nameCounterBuilder.tag("name", k).register(registry));
     }
+
 }

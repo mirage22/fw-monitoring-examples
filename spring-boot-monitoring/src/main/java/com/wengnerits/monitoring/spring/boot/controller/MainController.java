@@ -21,21 +21,28 @@ import com.wengnerits.monitoring.spring.boot.service.HalloService;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.prometheus.PrometheusMeterRegistry;
 import io.prometheus.client.exporter.common.TextFormat;
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class MainController {
 
-    private final PrometheusMeterRegistry registry;
-    private final HalloService halloService;
     private final Counter indexCounter;
+    private final Counter.Builder nameCounterBuilder;
+    private final HalloService halloService;
+    private final PrometheusMeterRegistry registry;
+
+    private final Map<String, Counter> counters = new HashMap<>();
 
     public MainController(PrometheusMeterRegistry registry, HalloService halloService) {
+        this.indexCounter = registry.counter("index_counter", "application", "spring-boot");
+        this.nameCounterBuilder = Counter.builder("name_counter").tag("application", "spring-boot");
         this.halloService = halloService;
         this.registry = registry;
-        indexCounter = registry.counter("index_counter", "application", "spring-boot");
     }
 
     @GetMapping(value = "/", produces = MediaType.TEXT_PLAIN_VALUE)
@@ -44,9 +51,22 @@ public class MainController {
         return halloService.hallo();
     }
 
+    @GetMapping(value = "/hallo/{name}", produces = MediaType.TEXT_PLAIN_VALUE)
+    public String hallo(@PathVariable String name) {
+        nameCounterBuilder.tag("name", name).register(registry);
+        getNameCounter(name).increment();
+        return """
+            Hallo name '$name'
+            """.replace("$name", name);
+    }
+
     @GetMapping(value = "/metrics", produces = MediaType.TEXT_PLAIN_VALUE)
     public String metrics() {
         return registry.scrape(TextFormat.CONTENT_TYPE_004);
+    }
+
+    private Counter getNameCounter(String name) {
+        return counters.computeIfAbsent(name, (k) -> nameCounterBuilder.tag("name", k).register(registry));
     }
 
 }

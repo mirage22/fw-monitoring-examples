@@ -1,1 +1,5 @@
 ./monitoring/grafana
+/.gradle/
+/.idea/
+/gradle/wrapper/*
+build/

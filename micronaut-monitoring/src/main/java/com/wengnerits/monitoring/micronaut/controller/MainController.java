@@ -17,7 +17,6 @@
 
 package com.wengnerits.monitoring.micronaut.controller;
 
-
 import com.wengnerits.monitoring.micronaut.service.HelloService;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.prometheus.PrometheusMeterRegistry;

@@ -1,0 +1,29 @@
+micronaut:
+  application:
+    name: micronaut-monitoring
+  server:
+    port: 3805
+  metrics:
+    enabled: true
+    export:
+      prometheus:
+        enabled: true
+        step: PT1M
+        descriptions: true
+endpoints:
+  all:
+    path: /actuator
+  health:
+    enabled: true
+    sensitive: false
+    details-visible: anonymous
+  metrics:
+    enabled: true
+    sensitive: false
+  prometheus:
+    enabled: true
+    sensitive: false
+netty:
+  default:
+    allocator:
+      max-order: 3

@@ -13,6 +13,12 @@ services:
     ports:
       - "3802:3802"
 
+  app-micronaut-kt:
+    image: micronaut-monitoring-kt:latest
+    restart: always
+    ports:
+      - "3805:3805"
+
   app-spring-boot:
     image: spring-boot-monitoring:latest
     restart: always
@@ -41,6 +47,7 @@ services:
     links:
       - app-ktor
       - app-micronaut
+      - app-micronaut-kt
       - app-spring-boot
       - app-spring-boot-kt
       - app-quarkus-java
@@ -58,6 +65,7 @@ services:
     links:
       - app-ktor
       - app-micronaut
+      - app-micronaut-kt
       - app-spring-boot
       - app-spring-boot-kt
       - app-quarkus-java

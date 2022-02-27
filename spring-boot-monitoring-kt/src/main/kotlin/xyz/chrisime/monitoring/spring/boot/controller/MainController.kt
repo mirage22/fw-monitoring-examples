@@ -7,32 +7,32 @@ import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
-import xyz.chrisime.monitoring.spring.boot.service.HalloService
+import xyz.chrisime.monitoring.spring.boot.service.HelloService
 
-@RestController
-class MainController(private val halloService: HalloService, private val registry: PrometheusMeterRegistry) {
+@RestController("/")
+class MainController(private val helloService: HelloService, private val registry: PrometheusMeterRegistry) {
 
-    private val indexCounter = registry.counter("index-counter", "application", "spring-boot-kt")
+    private val helloCounter = registry.counter("index-counter", "application", "spring-boot-kt")
     private var nameCounterBuilder = Counter.builder("name-counter").tag("application", "spring-boot-kt")
 
     private val counters = mutableMapOf<String, Counter>()
 
-    @GetMapping(value = ["/"], produces = [MediaType.TEXT_PLAIN_VALUE])
-    fun index(): String? {
-        indexCounter.increment()
-        return halloService.hallo()
+    @GetMapping(produces = [MediaType.TEXT_PLAIN_VALUE])
+    fun hello(): String {
+        helloCounter.increment()
+        return helloService.hello()
     }
 
-    @GetMapping(value = ["/hallo/{name}"], produces = [MediaType.TEXT_PLAIN_VALUE])
-    fun hallo(@PathVariable name: String): String {
+    @GetMapping(value = ["{name}"], produces = [MediaType.TEXT_PLAIN_VALUE])
+    fun hello(@PathVariable name: String): String {
         counters.getOrPut(name) {
             nameCounterBuilder.tag("name", name).register(registry)
         }.increment()
 
-        return "Hello $name"
+        return "Hello '$name'"
     }
 
-    @GetMapping(value = ["/metrics"], produces = [MediaType.TEXT_PLAIN_VALUE])
+    @GetMapping(value = ["metrics"], produces = [MediaType.TEXT_PLAIN_VALUE])
     fun metrics(): String? {
         return registry.scrape(CONTENT_TYPE_004)
     }

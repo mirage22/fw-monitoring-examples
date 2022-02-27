@@ -10,7 +10,7 @@ plugins {
     kotlin("plugin.spring") version "1.6.10"
 }
 
-group = "xyz.chrisime.monitoring.spring.boot"
+group = "com.wengnerits.monitoring.spring.boot.kt"
 version = "0.0.1-SNAPSHOT"
 
 java {

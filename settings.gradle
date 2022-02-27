@@ -2,5 +2,5 @@ rootProject.name = 'fw-monitoring-examples'
 include 'ktor-monitoring'
 include 'spring-boot-monitoring'
 include 'micronaut-monitoring'
+include 'micronaut-monitoring-kt'
 include 'quarkus-java-monitoring'
-

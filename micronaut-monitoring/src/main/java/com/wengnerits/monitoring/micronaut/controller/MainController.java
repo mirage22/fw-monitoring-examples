@@ -53,7 +53,6 @@ public class MainController {
 
     @Get(processes = MediaType.TEXT_PLAIN, value = "/hallo/{name}")
     public String hallo(@PathVariable String name) {
-        nameCounterBuilder.tag("name", name).register(registry);
         getNameCounter(name).increment();
         return """
             Hello '$name'

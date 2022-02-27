@@ -12,11 +12,10 @@ import xyz.chrisime.monitoring.spring.boot.service.HalloService
 @RestController
 class MainController(private val halloService: HalloService, private val registry: PrometheusMeterRegistry) {
 
+    private val indexCounter = registry.counter("index-counter", "application", "spring-boot-kt")
+    private var nameCounterBuilder = Counter.builder("name-counter").tag("application", "spring-boot-kt")
 
-    private val indexCounter: Counter = registry.counter("index-counter", "application", "spring-boot-kt")
-    private var nameCounterBuilder: Counter.Builder = Counter.builder("name-counter").tag("application", "spring-boot-kt")
-
-    private val counters: MutableMap<String, Counter> = HashMap()
+    private val counters = mutableMapOf<String, Counter>()
 
     @GetMapping(value = ["/"], produces = [MediaType.TEXT_PLAIN_VALUE])
     fun index(): String? {

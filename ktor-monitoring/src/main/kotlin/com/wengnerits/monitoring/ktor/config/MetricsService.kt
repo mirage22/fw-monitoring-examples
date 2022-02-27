@@ -18,7 +18,6 @@
 package com.wengnerits.monitoring.ktor.config
 
 import io.micrometer.core.instrument.Counter
-import io.micrometer.core.instrument.LongTaskTimer
 import io.micrometer.core.instrument.Timer
 import io.micrometer.prometheus.PrometheusConfig
 import io.micrometer.prometheus.PrometheusMeterRegistry
@@ -26,32 +25,40 @@ import org.koin.core.component.KoinComponent
 
 class MetricsService : KoinComponent {
 
-    companion object {
-        const val APP_NAME = "ktor-monitoring"
+    private companion object {
+        private const val APP_NAME = "ktor-monitoring"
     }
 
     val registry = PrometheusMeterRegistry(PrometheusConfig.DEFAULT).apply {
         config().commonTags("application", APP_NAME)
     }
 
-    private val mainCounter = Counter
-        .builder("main")
-        .description("simple counter")
-        .tag("application", APP_NAME)
-        .tag("section", "main")
-        .register(registry)
+    private val mainCounter = Counter.builder("main")
+            .description("main counter")
+            .tag("application", APP_NAME)
+            .tag("section", "main")
+            .register(registry)
+
+    private val timerCounter = Counter.builder("timer")
+            .description("timer counter")
+            .tag("application", APP_NAME)
+            .tag("section", "main")
+            .register(registry)
 
     private val mainTimer: Timer = registry.timer("ktor-monitoring-main-timer")
     private val simpleTimer: Timer = registry.timer("ktor-monitoring-simple-timer")
-    private val longTaskTimer: LongTaskTimer = LongTaskTimer.builder("ktor-monitoring-long-task-timer").register(registry)
 
     fun mainCount() {
         mainCounter.increment()
+    }
+
+    fun timerCount() {
+        timerCounter.increment()
     }
 
     fun registryScrape(): String = registry.scrape()
 
     fun mainTimer() = mainTimer
     fun simpleTimer() = simpleTimer
-    fun taskTimer() = longTaskTimer
+
 }

@@ -59,24 +59,15 @@ fun Route.getMainRoutes() {
     }
 
     get("/timer") {
-        metricsService.simpleTimer().record() {
+        metricsService.simpleTimer().record {
+            metricsService.timerCount()
             runBlocking {
-                if (halloService.init()) {
-                    halloService.action()
-                }
+                halloService.timer()
                 call.respondText("This is simple timer", status = HttpStatusCode.OK)
             }
         }
     }
 
-    get("/timer_long") {
-        metricsService.simpleTimer().record() {
-            runBlocking {
-                TimeUnit.SECONDS.sleep(1)
-                call.respondText("This is simple timer", status = HttpStatusCode.OK)
-            }
-        }
-    }
 }
 
 fun Application.registerMainRoutes() {

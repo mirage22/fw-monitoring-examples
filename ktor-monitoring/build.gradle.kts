@@ -11,9 +11,9 @@ val ktor_micrometer_prometheus_version: String by project
 
 plugins {
     application
-    kotlin("jvm") version "1.5.30"
+    kotlin("jvm") version  "1.5.30"
     kotlin("plugin.serialization") version "1.5.30"
-    id ("com.github.johnrengelman.shadow") version "7.1.2"
+    id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
 group = "com.wengnerits.monitoring.ktor"
@@ -53,14 +53,13 @@ tasks.test {
         exceptionFormat = TestExceptionFormat.FULL
 
         events(TestLogEvent.FAILED, TestLogEvent.SKIPPED, TestLogEvent.PASSED)
-
     }
 }
 
 tasks.compileKotlin{
-    kotlinOptions.jvmTarget = "${java_version}"
+    kotlinOptions.jvmTarget = java_version
 }
 
 tasks.compileTestKotlin {
-    kotlinOptions.jvmTarget = "${java_version}"
+    kotlinOptions.jvmTarget = java_version
 }

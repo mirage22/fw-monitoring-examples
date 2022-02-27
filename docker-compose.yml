@@ -19,6 +19,12 @@ services:
     ports:
       - "3801:3801"
 
+  app-spring-boot-kt:
+    image: spring-boot-monitoring-kt:latest
+    restart: always
+    ports:
+      - "3804:3804"
+
   app-quarkus-java:
     image: quarkus-java-monitoring:latest
     restart: always
@@ -36,6 +42,7 @@ services:
       - app-ktor
       - app-micronaut
       - app-spring-boot
+      - app-spring-boot-kt
       - app-quarkus-java
 
   grafana:
@@ -52,5 +59,6 @@ services:
       - app-ktor
       - app-micronaut
       - app-spring-boot
+      - app-spring-boot-kt
       - app-quarkus-java
       - prometheus

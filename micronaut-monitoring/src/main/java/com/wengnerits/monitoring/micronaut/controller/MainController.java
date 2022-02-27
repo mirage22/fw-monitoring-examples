@@ -39,8 +39,8 @@ public class MainController {
     private final Map<String, Counter> counters = new HashMap<>();
 
     public MainController(PrometheusMeterRegistry registry, HalloService halloService) {
-        this.indexCounter = registry.counter("index_counter", "application", "micronaut");
-        this.nameCounterBuilder = Counter.builder("name_counter").tag("application", "micronaut");
+        this.indexCounter = registry.counter("index-counter", "application", "micronaut");
+        this.nameCounterBuilder = Counter.builder("name-counter").tag("application", "micronaut");
         this.halloService = halloService;
         this.registry = registry;
     }
@@ -56,7 +56,7 @@ public class MainController {
         nameCounterBuilder.tag("name", name).register(registry);
         getNameCounter(name).increment();
         return """
-            Hallo name '$name'
+            Hello '$name'
             """.replace("$name", name);
     }
 

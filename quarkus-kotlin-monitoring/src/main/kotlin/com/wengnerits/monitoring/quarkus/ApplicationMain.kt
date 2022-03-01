@@ -14,15 +14,15 @@
  * You should have received a copy of the GNU General Public License
  *  along with fw-monitoring-examples. If not, see <http://www.gnu.org/licenses/>.
  */
+package com.wengnerits.monitoring.quarkus
 
-package com.wengnerits.monitoring.quarkus;
-
-import io.quarkus.runtime.Quarkus;
-import io.quarkus.runtime.annotations.QuarkusMain;
+import io.quarkus.runtime.annotations.QuarkusMain
+import io.quarkus.runtime.Quarkus
 
 @QuarkusMain
-public class ApplicationMain {
-    public static void main(String[] args) {
-        Quarkus.run(args);
+object ApplicationMain {
+    @JvmStatic
+    fun main(args: Array<String>) {
+        Quarkus.run(*args)
     }
 }

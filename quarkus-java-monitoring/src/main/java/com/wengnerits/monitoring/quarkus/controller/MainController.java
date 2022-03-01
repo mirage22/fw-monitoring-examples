@@ -19,34 +19,32 @@ package com.wengnerits.monitoring.quarkus.controller;
 
 import com.wengnerits.monitoring.quarkus.service.HalloService;
 import io.micrometer.core.instrument.Counter;
-import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.prometheus.PrometheusMeterRegistry;
-import io.prometheus.client.exporter.common.TextFormat;
-
+import java.util.HashMap;
+import java.util.Map;
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import java.util.HashMap;
-import java.util.Map;
 
 @Path("/")
 public class MainController {
 
-    private final MeterRegistry registry;
+    private final PrometheusMeterRegistry registry;
+    private final HalloService halloService;
+
     private final Counter mainCounter;
     private final Counter.Builder nameCounterBuilder;
-    private final HalloService halloService;
+
     private final Map<String, Counter> counters = new HashMap<>();
 
-    MainController(final MeterRegistry registry, final HalloService halloService) {
+    @Inject
+    MainController(final PrometheusMeterRegistry registry, final HalloService halloService) {
         this.registry = registry;
-        this.mainCounter = Counter.builder("quarkus-main-counter")
-                .tag("application", "quarkus")
-                .register(registry);
-        this.nameCounterBuilder = Counter.builder("quarkus-name-counter")
-                .tag("application", "quarkus");
         this.halloService = halloService;
+        this.mainCounter = registry.counter("quarkus-main-counter", "application", "quarkus");
+        this.nameCounterBuilder = Counter.builder("quarkus-name-counter").tag("application", "quarkus");
     }
 
     @GET
@@ -58,25 +56,16 @@ public class MainController {
 
     @GET
     @Produces("text/plain")
-    @Path("{name}")
+    @Path("/hallo/{name}")
     public String halloWithName(@PathParam("name") String name) {
-        nameCounterBuilder.tag("name", name).register(registry);
         getNameCounter(name).increment();
         return """
-                Hallo name '$name'
+                Hallo '$name'
                 """.replace("$name", name);
     }
 
-
     private Counter getNameCounter(String name) {
-        if (counters.containsKey(name)) {
-            return counters.get(name);
-        } else {
-            Counter counter = nameCounterBuilder.tag("name", name).register(registry);
-            counters.put(name, counter);
-            return counter;
-        }
+        return counters.computeIfAbsent(name, (k) -> nameCounterBuilder.tag("name", k).register(registry));
     }
-
 
 }

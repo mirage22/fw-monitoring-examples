@@ -21,8 +21,7 @@ import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class HalloService {
-
     public String hallo(){
-        return "Welcome Quarkus monitoring example";
+        return "Welcome Quarkus Java monitoring example";
     }
 }

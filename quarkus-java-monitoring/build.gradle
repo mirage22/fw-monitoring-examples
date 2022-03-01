@@ -1,8 +1,7 @@
 plugins {
-    id("java")
-    id("java-library")
     id("idea")
     id("eclipse")
+    id("java")
     id("io.quarkus") version "${quarkusPlatformVersion}"
 }
 
@@ -13,12 +12,13 @@ repositories {
     mavenCentral()
 }
 
-
 dependencies {
     implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
-    implementation("io.quarkus:quarkus-micrometer-registry-prometheus")
-    implementation("io.quarkus:quarkus-resteasy")
-    testImplementation("io.quarkus:quarkus-junit5")
+    implementation("${quarkusPlatformGroupId}:quarkus-undertow")
+    implementation("${quarkusPlatformGroupId}:quarkus-micrometer-registry-prometheus")
+    implementation("${quarkusPlatformGroupId}:quarkus-resteasy")
+
+    testImplementation("${quarkusPlatformGroupId}:quarkus-junit5")
     testImplementation("io.rest-assured:rest-assured")
 }
 
@@ -26,7 +26,6 @@ java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
 }
-
 
 test {
     useJUnitPlatform()

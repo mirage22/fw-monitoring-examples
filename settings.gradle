@@ -3,4 +3,4 @@ include 'ktor-monitoring'
 include 'spring-boot-monitoring'
 include 'micronaut-monitoring'
 include 'quarkus-java-monitoring'
-
+include 'quarkus-kotlin-monitoring'

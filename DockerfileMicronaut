@@ -1,4 +1,5 @@
 FROM eclipse-temurin:17-centos7 as build
+
 RUN mkdir /app_build
 COPY . /app_build
 

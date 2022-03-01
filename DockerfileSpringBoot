@@ -4,7 +4,7 @@ COPY . /app_build
 
 WORKDIR /app_build
 
-RUN ./gradlew clean build shadowJar -p spring-boot-monitoring
+RUN ./gradlew clean build -p spring-boot-monitoring
 
 FROM eclipse-temurin:17-centos7
 

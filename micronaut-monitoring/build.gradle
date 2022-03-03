@@ -1,7 +1,7 @@
 plugins {
     id "idea"
     id "eclipse"
-    id "io.micronaut.application" version "$micronautVersion"
+    id "io.micronaut.application" version "3.2.2"
     id "com.github.johnrengelman.shadow" version "$shadowVersion"
 }
 

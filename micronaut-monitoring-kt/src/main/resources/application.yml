@@ -11,17 +11,8 @@ micronaut:
         step: PT1M
         descriptions: true
 endpoints:
-  all:
-    path: /actuator
-  health:
-    enabled: true
-    sensitive: false
-    details-visible: anonymous
   metrics:
-    enabled: true
-    sensitive: false
-  prometheus:
-    enabled: true
+    enabled: false
     sensitive: false
 netty:
   default:

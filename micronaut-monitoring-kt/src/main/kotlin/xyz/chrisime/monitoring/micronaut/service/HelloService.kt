@@ -19,6 +19,6 @@ package xyz.chrisime.monitoring.micronaut.service
 import jakarta.inject.Singleton
 
 @Singleton
-class HalloService {
+class HelloService {
     fun hallo(): String = "Welcome Micronaut monitoring example"
 }

@@ -23,23 +23,23 @@ import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.PathVariable
 import io.prometheus.client.exporter.common.TextFormat
-import xyz.chrisime.monitoring.micronaut.service.HalloService
+import xyz.chrisime.monitoring.micronaut.service.HelloService
 
 @Controller
-class MainController(private val registry: PrometheusMeterRegistry, private val halloService: HalloService) {
+class MainController(private val registry: PrometheusMeterRegistry, private val helloService: HelloService) {
 
-    private val indexCounter = registry.counter("index-counter", "application", "micronaut-kt")
+    private val helloCounter = registry.counter("hello-counter", "application", "micronaut-kt")
     private val nameCounterBuilder = Counter.builder("name-counter").tag("application", "micronaut-kt")
     private val counters = mutableMapOf<String, Counter>()
 
     @Get(processes = [MediaType.TEXT_PLAIN])
-    fun index(): String {
-        indexCounter.increment()
-        return halloService.hallo()
+    fun hello(): String {
+        helloCounter.increment()
+        return helloService.hallo()
     }
 
-    @Get(processes = [MediaType.TEXT_PLAIN], value = "/hallo/{name}")
-    fun hallo(@PathVariable name: String): String {
+    @Get(processes = [MediaType.TEXT_PLAIN], value = "{name}")
+    fun hello(@PathVariable name: String): String {
         counters.getOrPut(name) {
             nameCounterBuilder.tag("name", name).register(registry)
         }.increment()
@@ -47,7 +47,7 @@ class MainController(private val registry: PrometheusMeterRegistry, private val 
         return "Hello '$name'"
     }
 
-    @Get(processes = [MediaType.TEXT_PLAIN], value = "metrics")
+    @Get(processes = [MediaType.TEXT_PLAIN], value = "/metrics")
     fun metrics(): String = registry.scrape(TextFormat.CONTENT_TYPE_004)
 
 }

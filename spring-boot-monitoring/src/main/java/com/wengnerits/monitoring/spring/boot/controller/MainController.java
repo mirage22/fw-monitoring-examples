@@ -17,39 +17,58 @@
 
 package com.wengnerits.monitoring.spring.boot.controller;
 
-import com.wengnerits.monitoring.spring.boot.service.HalloService;
+import com.wengnerits.monitoring.spring.boot.service.HelloService;
 import io.micrometer.core.instrument.Counter;
-import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.prometheus.PrometheusMeterRegistry;
 import io.prometheus.client.exporter.common.TextFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+import java.util.HashMap;
+import java.util.Map;
+
+@RestController("/")
 public class MainController {
 
+    private final Counter helloCounter;
+    private final Counter.Builder nameCounterBuilder;
+    private final HelloService helloService;
     private final PrometheusMeterRegistry registry;
-    private final HalloService halloService;
-    private final Counter indexCounter;
+
+    private final Map<String, Counter> counters = new HashMap<>();
 
     @Autowired
-    public MainController(PrometheusMeterRegistry registry, HalloService halloService) {
-        this.halloService = halloService;
+    public MainController(PrometheusMeterRegistry registry, HelloService helloService) {
+        this.helloCounter = registry.counter("hello-counter", "application", "spring-boot");
+        this.nameCounterBuilder = Counter.builder("name-counter").tag("application", "spring-boot");
+        this.helloService = helloService;
         this.registry = registry;
-        indexCounter = registry.counter("index_counter");
     }
 
-    @GetMapping("/")
-    public String index() {
-        indexCounter.increment();
-        return halloService.hallo();
+    @GetMapping(produces = MediaType.TEXT_PLAIN_VALUE)
+    public String hello() {
+        helloCounter.increment();
+        return helloService.hello();
     }
 
-    @GetMapping(value = "/metrics", produces = MediaType.TEXT_PLAIN_VALUE )
+    @GetMapping(value = "{name}", produces = MediaType.TEXT_PLAIN_VALUE)
+    public String hello(@PathVariable String name) {
+        nameCounterBuilder.tag("name", name).register(registry);
+        getNameCounter(name).increment();
+        return """
+            Hello '$name'
+            """.replace("$name", name);
+    }
+
+    @GetMapping(value = "metrics", produces = MediaType.TEXT_PLAIN_VALUE)
     public String metrics() {
         return registry.scrape(TextFormat.CONTENT_TYPE_004);
     }
 
+    private Counter getNameCounter(String name) {
+        return counters.computeIfAbsent(name, (k) -> nameCounterBuilder.tag("name", k).register(registry));
+    }
 }

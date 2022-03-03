@@ -22,19 +22,19 @@ import org.koin.core.component.KoinComponent
 import java.util.concurrent.ThreadLocalRandom
 import java.util.concurrent.TimeUnit.SECONDS
 
-interface HalloService : KoinComponent {
-    fun hallo(): String
+interface HelloService : KoinComponent {
+    fun hello(): String
     fun init(): Boolean
     fun action(): Unit
 }
 
-class HalloServiceImpl() : HalloService {
+class HelloServiceImpl() : HelloService {
 
     private fun randomInt(): Long {
         return ThreadLocalRandom.current().nextInt(0, 10).toLong()
     }
 
-    override fun hallo() = "Welcome KTor monitoring example"
+    override fun hello() = "Welcome KTor monitoring example"
     override fun init(): Boolean {
         runBlocking {
             SECONDS.sleep(randomInt())

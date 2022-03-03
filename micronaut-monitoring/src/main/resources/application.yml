@@ -12,9 +12,7 @@ micronaut:
         descriptions: true
 endpoints:
   metrics:
-    enabled: Boolean
-    sensitive: Boolean
-  prometheus:
+    enabled: false
     sensitive: false
 netty:
   default:

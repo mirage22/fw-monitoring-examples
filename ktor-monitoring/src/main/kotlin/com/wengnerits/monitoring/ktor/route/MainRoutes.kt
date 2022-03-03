@@ -18,7 +18,7 @@
 package com.wengnerits.monitoring.ktor.route
 
 import com.wengnerits.monitoring.ktor.config.MetricsService
-import com.wengnerits.monitoring.ktor.service.HalloServiceImpl
+import com.wengnerits.monitoring.ktor.service.HelloServiceImpl
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
@@ -46,14 +46,14 @@ import java.util.concurrent.TimeUnit
 
 fun Route.getMainRoutes() {
 
-    val halloService: HalloServiceImpl by inject()
+    val helloService: HelloServiceImpl by inject()
     val metricsService: MetricsService by inject()
 
     get("/") {
         metricsService.mainTimer().record {
-            metricsService.mainCount()
+            metricsService.helloCount()
             runBlocking {
-                call.respondText(halloService.hallo(), status = HttpStatusCode.OK)
+                call.respondText(helloService.hello(), status = HttpStatusCode.OK)
             }
         }
     }
@@ -61,8 +61,8 @@ fun Route.getMainRoutes() {
     get("/timer") {
         metricsService.simpleTimer().record() {
             runBlocking {
-                if (halloService.init()) {
-                    halloService.action()
+                if (helloService.init()) {
+                    helloService.action()
                 }
                 call.respondText("This is simple timer", status = HttpStatusCode.OK)
             }

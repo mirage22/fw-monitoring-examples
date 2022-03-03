@@ -15,13 +15,14 @@
  *  along with fw-monitoring-examples. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.wengnerits.monitoring.micronaut.service;
+package com.wengnerits.monitoring.quarkus.service;
 
-import jakarta.inject.Singleton;
+import javax.enterprise.context.ApplicationScoped;
 
-@Singleton
-public class HalloService {
-    public String hallo() {
-        return "Welcome Micronaut monitoring example";
+@ApplicationScoped
+public class HelloService {
+
+    public String hello(){
+        return "Hello Quarkus monitoring example";
     }
 }

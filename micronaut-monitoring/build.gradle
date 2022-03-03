@@ -1,9 +1,8 @@
 plugins {
-    id("java")
-    id("idea")
-    id("eclipse")
-    id("com.github.johnrengelman.shadow") version "7.1.1"
-    id("io.micronaut.application") version "3.2.1"
+    id "idea"
+    id "eclipse"
+    id "io.micronaut.application" version "$micronautVersion"
+    id "com.github.johnrengelman.shadow" version "$shadowVersion"
 }
 
 group 'com.wengnerits.monitoring.micronaut'
@@ -19,16 +18,13 @@ application {
 
 dependencies {
     annotationProcessor("io.micronaut:micronaut-http-validation")
-    implementation("io.micronaut:micronaut-http-client")
-    implementation("io.micronaut:micronaut-jackson-databind")
-    implementation("io.micronaut:micronaut-runtime")
-    implementation("io.micronaut.micrometer:micronaut-micrometer-core")
-    implementation("io.micronaut.micrometer:micronaut-micrometer-registry-statsd")
     implementation("io.micronaut:micronaut-management")
+    implementation("io.micronaut:micronaut-runtime")
+
+    implementation("io.micronaut.micrometer:micronaut-micrometer-core")
     implementation("io.micronaut.micrometer:micronaut-micrometer-registry-prometheus")
-    implementation("jakarta.annotation:jakarta.annotation-api")
+
     runtimeOnly("ch.qos.logback:logback-classic")
-    implementation("io.micronaut:micronaut-validation")
 }
 
 java {
@@ -39,10 +35,11 @@ java {
 graalvmNative.toolchainDetection = false
 
 micronaut {
+    version("${micronautVersion}")
     runtime("netty")
     testRuntime("junit5")
+
     processing {
         incremental(true)
-        annotations("hello.world.*")
     }
 }

@@ -15,14 +15,13 @@
  *  along with fw-monitoring-examples. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.wengnerits.monitoring.quarkus.service;
+package com.wengnerits.monitoring.spring.boot.service;
 
-import javax.enterprise.context.ApplicationScoped;
+import org.springframework.stereotype.Service;
 
-@ApplicationScoped
-public class HalloService {
-
-    public String hallo(){
-        return "Welcome Quarkus monitoring example";
+@Service
+public class HelloService {
+    public String hello() {
+        return "Welcome Spring-Boot monitoring example";
     }
 }

@@ -17,11 +17,9 @@
 
 package com.wengnerits.monitoring.quarkus.controller;
 
-import com.wengnerits.monitoring.quarkus.service.HalloService;
+import com.wengnerits.monitoring.quarkus.service.HelloService;
 import io.micrometer.core.instrument.Counter;
-import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.prometheus.PrometheusMeterRegistry;
-import io.prometheus.client.exporter.common.TextFormat;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -33,40 +31,39 @@ import java.util.Map;
 @Path("/")
 public class MainController {
 
-    private final MeterRegistry registry;
-    private final Counter mainCounter;
+    private final PrometheusMeterRegistry registry;
+    private final Counter helloCounter;
     private final Counter.Builder nameCounterBuilder;
-    private final HalloService halloService;
+    private final HelloService helloService;
     private final Map<String, Counter> counters = new HashMap<>();
 
-    MainController(final MeterRegistry registry, final HalloService halloService) {
+    MainController(final PrometheusMeterRegistry registry, final HelloService helloService) {
         this.registry = registry;
-        this.mainCounter = Counter.builder("quarkus-main-counter")
+        this.helloCounter = Counter.builder("quarkus-hello-counter")
                 .tag("application", "quarkus")
                 .register(registry);
         this.nameCounterBuilder = Counter.builder("quarkus-name-counter")
                 .tag("application", "quarkus");
-        this.halloService = halloService;
+        this.helloService = helloService;
     }
 
     @GET
     @Produces("text/plain")
     public String hello() {
-        mainCounter.increment();
-        return halloService.hallo();
+        helloCounter.increment();
+        return helloService.hello();
     }
 
     @GET
     @Produces("text/plain")
     @Path("{name}")
-    public String halloWithName(@PathParam("name") String name) {
+    public String helloWithName(@PathParam("name") String name) {
         nameCounterBuilder.tag("name", name).register(registry);
         getNameCounter(name).increment();
         return """
-                Hallo name '$name'
+                Hello name:'$name'
                 """.replace("$name", name);
     }
-
 
     private Counter getNameCounter(String name) {
         if (counters.containsKey(name)) {
@@ -77,6 +74,5 @@ public class MainController {
             return counter;
         }
     }
-
-
 }
+

@@ -2,6 +2,8 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 val ktor_version: String by project
+val ktor_coroutines_version: String by project
+val ktor_koin_version: String by project
 val kotlin_version: String by project
 val logback_version: String by project
 val junit_jupiter_version: String by project
@@ -27,14 +29,14 @@ application {
 dependencies {
     implementation("io.ktor:ktor-server-core:$ktor_version")
     implementation("io.ktor:ktor-server-netty:$ktor_version")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$ktor_coroutines_version")
     implementation("ch.qos.logback:logback-classic:$logback_version")
     implementation("io.ktor:ktor-serialization:$ktor_version")
     implementation("org.junit.jupiter:junit-jupiter:$junit_jupiter_version")
 
     // Monitoring
     implementation("io.ktor:ktor-metrics-micrometer:$ktor_metrics_micrometer_version")
-    implementation("io.insert-koin:koin-ktor:3.1.5")
+    implementation("io.insert-koin:koin-ktor:$ktor_koin_version")
     implementation("io.micrometer:micrometer-registry-prometheus:$ktor_micrometer_prometheus_version")
 
     testImplementation("io.ktor:ktor-server-tests:$ktor_version")

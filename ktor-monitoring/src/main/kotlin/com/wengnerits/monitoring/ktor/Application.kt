@@ -46,7 +46,7 @@ fun Application.module(testing: Boolean = false) {
 
     install(Routing) {
         intercept(ApplicationCallPipeline.Call) {
-            println("application-montioring called")
+            println("application-monitoring called")
         }
     }
 

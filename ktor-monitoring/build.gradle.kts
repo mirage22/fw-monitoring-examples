@@ -11,6 +11,8 @@ val java_version: String by project
 val ktor_metrics_micrometer_version: String by project
 val ktor_micrometer_prometheus_version: String by project
 
+val kotlinCompatibilityVersion = "1.6"
+
 plugins {
     application
     kotlin("jvm") version "1.6.10"
@@ -51,8 +53,8 @@ tasks {
         kotlinOptions {
             jvmTarget = java_version
 
-            apiVersion = "1.6"
-            languageVersion = "1.6"
+            apiVersion = kotlinCompatibilityVersion
+            languageVersion = kotlinCompatibilityVersion
 
             freeCompilerArgs = listOf(
                     "-Xjsr305=strict",
@@ -64,8 +66,8 @@ tasks {
     compileTestKotlin {
         kotlinOptions {
             jvmTarget = java_version
-            apiVersion = "1.6"
-            languageVersion = "1.6"
+            apiVersion = kotlinCompatibilityVersion
+            languageVersion = kotlinCompatibilityVersion
 
             freeCompilerArgs = listOf(
                     "-Xjsr305=strict",

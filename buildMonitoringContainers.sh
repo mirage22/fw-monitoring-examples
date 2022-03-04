@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 set -e # exit when non-zero return
 
 SCRIPT_NAME=$(basename "$0")
@@ -46,7 +46,7 @@ function buildQuarkusJavaImage(){
 }
 
 function error_print() {
-    echo "$@" >&2
+  echo "$@" >&2
 }
 
 function displayHelp(){
@@ -59,7 +59,6 @@ function displayHelp(){
     printf " \t%s\t%s\n" "--spring-boot-kotlin" "build Spring-Boot-Kotlin docker image"
     printf " \t%s\t%s\n" "--quarkus-java" "build Quarkus-Java docker image"
     printf " \t%s\t%s\n" "--buildAll" "build all available images"
-
   } | column -ts $'\t'
 }
 

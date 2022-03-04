@@ -1,3 +1,6 @@
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+
 plugins {
     idea
     eclipse
@@ -8,11 +11,11 @@ plugins {
     id("io.micronaut.application") version "3.2.2"
 }
 
-version = "0.1"
+version = "1.0-SNAPSHOT"
 group = "xyz.chrisime.monitoring.micronaut"
 
-val kotlinVersion = project.properties["kotlinVersion"]
-val micronautVersion = project.properties["micronautVersion"] as String
+val kotlinCompatibilityVersion: String by project
+val micronautVersion: String by project
 
 repositories {
     mavenCentral()
@@ -27,30 +30,22 @@ dependencies {
     implementation("io.micronaut.micrometer:micronaut-micrometer-core")
     implementation("io.micronaut.micrometer:micronaut-micrometer-registry-prometheus")
 
-    implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
-
     runtimeOnly("ch.qos.logback:logback-classic")
 }
 
-
-application {
-    mainClass.set("xyz.chrisime.monitoring.micronaut.ApplicationMainKt")
-}
-
-graalvmNative {
-    toolchainDetection.set(false)
-}
-
 tasks {
+    application {
+        mainClass.set("xyz.chrisime.monitoring.micronaut.ApplicationMainKt")
+    }
+
     compileKotlin {
         kotlinOptions {
-            jvmTarget = "17"
+            jvmTarget = kotlinCompatibilityVersion
         }
     }
     compileTestKotlin {
         kotlinOptions {
-            jvmTarget = "17"
+            jvmTarget = kotlinCompatibilityVersion
         }
     }
 
@@ -58,14 +53,33 @@ tasks {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-}
 
-micronaut {
-    version(micronautVersion)
-    runtime("undertow")
-    testRuntime("junit5")
+    test {
+        useJUnitPlatform()
 
-    processing {
-        incremental(true)
+        testLogging {
+            showExceptions = true
+            showCauses = true
+            showStackTraces = true
+            showStandardStreams = true
+            exceptionFormat = TestExceptionFormat.FULL
+            displayGranularity = 2
+
+            events(TestLogEvent.FAILED, TestLogEvent.SKIPPED, TestLogEvent.PASSED)
+        }
+    }
+
+    micronaut {
+        version(micronautVersion)
+        runtime("undertow")
+        testRuntime("junit5")
+
+        processing {
+            incremental(true)
+        }
+    }
+
+    graalvmNative {
+        toolchainDetection.set(false)
     }
 }

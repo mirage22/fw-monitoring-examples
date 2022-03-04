@@ -37,11 +37,7 @@ dependencies {
 application {
     mainClass.set("xyz.chrisime.monitoring.micronaut.ApplicationMainKt")
 }
-java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
 
-}
 graalvmNative {
     toolchainDetection.set(false)
 }
@@ -57,8 +53,13 @@ tasks {
             jvmTarget = "17"
         }
     }
+
+    java {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
 }
-graalvmNative.toolchainDetection.set(false)
+
 micronaut {
     version(micronautVersion)
     runtime("undertow")

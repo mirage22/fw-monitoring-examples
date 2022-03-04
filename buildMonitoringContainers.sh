@@ -24,6 +24,10 @@ function buildDockerImageByProjectName(){
   statusMessage "building" $projectName $dockerFileName
 }
 
+function buildQuarkusKotlinImage(){
+  docker build -f ./DockerfileQuarkusKotlin --platform "${ARCH_TYPE}" --no-cache -t quarkus-kotlin-monitoring .
+}
+
 function error_print() {
   echo "$@" >&2
 }
@@ -38,6 +42,7 @@ function displayHelp(){
     printf " \t%s\t%s\n" "--spring-boot-java" "build Spring-Boot-Java docker image"
     printf " \t%s\t%s\n" "--spring-boot-kotlin" "build Spring-Boot-Kotlin docker image"
     printf " \t%s\t%s\n" "--quarkus-java" "build Quarkus-Java docker image"
+    printf " \t%s\t%s\n" "--quarkus-kotlin" "build Quarkus-Kotlin docker image"
     printf " \t%s\t%s\n" "--buildAll" "build all available images"
   } | column -ts $'\t'
 }
@@ -66,6 +71,9 @@ function parseArgs(){
             ;;
         --quarkus-java)
             buildDockerImageByProjectName "DockerfileQuarkusJava" "quarkus-monitoring"
+            ;;
+        --quarkus-kotlin)
+            buildQuarkusKotlinImage
             ;;
         --buildAll)
             buildDockerImageByProjectName "DockerfileKTor" "ktor-monitoring"

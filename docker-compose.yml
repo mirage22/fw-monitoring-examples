@@ -20,7 +20,7 @@ services:
       - "3801:3801"
 
   app-spring-boot-kt:
-    image: spring-boot-monitoring-kt:latest
+    image: spring-boot-kotlin-monitoring:latest
     restart: always
     ports:
       - "3804:3804"

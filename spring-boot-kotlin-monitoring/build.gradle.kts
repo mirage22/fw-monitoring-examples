@@ -34,7 +34,12 @@ tasks {
 
     compileKotlin {
         kotlinOptions {
-            freeCompilerArgs = listOf("-Xjsr305=strict")
+            jvmTarget = kotlinCompatibilityVersion
+        }
+    }
+
+    compileTestKotlin {
+        kotlinOptions {
             jvmTarget = kotlinCompatibilityVersion
         }
     }

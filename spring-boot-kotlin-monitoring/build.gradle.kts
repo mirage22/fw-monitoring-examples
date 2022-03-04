@@ -1,6 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.springframework.boot.gradle.tasks.bundling.BootJar
-
 plugins {
     idea
     eclipse
@@ -13,29 +10,33 @@ plugins {
 group = "com.wengnerits.monitoring.spring.boot.kt"
 version = "0.0.1-SNAPSHOT"
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
-}
+val kotlinCompatibilityVersion = "16"
 
 repositories {
     mavenCentral()
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "16"
+tasks {
+    java {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
-}
 
-tasks.withType<Jar> {
-    enabled = true
-}
+    jar {
+        enabled = true
+    }
 
-tasks.withType<BootJar> {
-    manifest {
-        attributes to "Start-Class" to "xyz.chrisime.monitoring.spring.boot.ApplicationMainKt"
+    bootJar {
+        manifest {
+            attributes to "Start-Class" to "xyz.chrisime.monitoring.spring.boot.ApplicationMainKt"
+        }
+    }
+
+    compileKotlin {
+        kotlinOptions {
+            freeCompilerArgs = listOf("-Xjsr305=strict")
+            jvmTarget = kotlinCompatibilityVersion
+        }
     }
 }
 

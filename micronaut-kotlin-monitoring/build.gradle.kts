@@ -70,9 +70,10 @@ tasks {
     }
 
     micronaut {
-        version(micronautVersion)
-        runtime("undertow")
-        testRuntime("junit5")
+        enableNativeImage(false)
+                .version(micronautVersion)
+                .runtime("undertow")
+                .testRuntime("junit5")
 
         processing {
             incremental(true)

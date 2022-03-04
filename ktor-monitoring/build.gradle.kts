@@ -55,11 +55,6 @@ tasks {
 
             apiVersion = kotlinCompatibilityVersion
             languageVersion = kotlinCompatibilityVersion
-
-            freeCompilerArgs = listOf(
-                    "-Xjsr305=strict",
-                    "-Xstrict-java-nullability-assertions"
-            )
         }
     }
 
@@ -68,11 +63,6 @@ tasks {
             jvmTarget = java_version
             apiVersion = kotlinCompatibilityVersion
             languageVersion = kotlinCompatibilityVersion
-
-            freeCompilerArgs = listOf(
-                    "-Xjsr305=strict",
-                    "-Xstrict-java-nullability-assertions"
-            )
         }
     }
 

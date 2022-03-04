@@ -47,7 +47,6 @@ dependencies {
         exclude(module = "spring-boot-starter-tomcat")
     }
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
     implementation("io.micrometer:micrometer-core")
     implementation("io.micrometer:micrometer-registry-prometheus")

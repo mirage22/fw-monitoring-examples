@@ -14,7 +14,7 @@ services:
       - "3802:3802"
 
   app-micronaut-kt:
-    image: micronaut-monitoring-kt:latest
+    image: micronaut-kotlin-monitoring:latest
     restart: always
     ports:
       - "3805:3805"

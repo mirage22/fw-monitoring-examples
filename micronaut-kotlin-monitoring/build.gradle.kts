@@ -1,3 +1,5 @@
+import io.micronaut.gradle.MicronautRuntime
+import io.micronaut.gradle.MicronautTestRuntime
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
@@ -72,8 +74,8 @@ tasks {
     micronaut {
         enableNativeImage(false)
                 .version(micronautVersion)
-                .runtime("undertow")
-                .testRuntime("junit5")
+                .runtime(MicronautRuntime.UNDERTOW)
+                .testRuntime(MicronautTestRuntime.JUNIT_5)
 
         processing {
             incremental(true)

@@ -28,7 +28,7 @@ import io.prometheus.client.exporter.common.TextFormat;
 import java.util.HashMap;
 import java.util.Map;
 
-@Controller
+@Controller("/")
 public class MainController {
 
     private final Counter helloCounter;

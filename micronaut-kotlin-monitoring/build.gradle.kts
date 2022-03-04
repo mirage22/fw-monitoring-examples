@@ -6,8 +6,10 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 plugins {
     idea
     eclipse
-    id("org.jetbrains.kotlin.jvm") version "1.6.10"
-    id("org.jetbrains.kotlin.kapt") version "1.6.10"
+
+    kotlin("jvm") version "1.6.10"
+    kotlin("kapt") version "1.6.10"
+
     id("org.jetbrains.kotlin.plugin.allopen") version "1.6.10"
     id("com.github.johnrengelman.shadow") version "7.1.2"
     id("io.micronaut.application") version "3.2.2"
@@ -17,6 +19,7 @@ version = "1.0-SNAPSHOT"
 group = "xyz.chrisime.monitoring.micronaut"
 
 val kotlinCompatibilityVersion: String by project
+val kotlinBaseVersion: String by project
 val micronautVersion: String by project
 
 repositories {
@@ -24,6 +27,7 @@ repositories {
 }
 
 dependencies {
+    implementation(platform("io.micronaut:micronaut-bom:${micronautVersion}"))
     implementation("io.micronaut:micronaut-management")
     implementation("io.micronaut:micronaut-runtime")
 
@@ -36,18 +40,18 @@ dependencies {
 }
 
 tasks {
-    application {
-        mainClass.set("xyz.chrisime.monitoring.micronaut.ApplicationMainKt")
-    }
-
     compileKotlin {
         kotlinOptions {
             jvmTarget = kotlinCompatibilityVersion
+            apiVersion = kotlinBaseVersion
+            languageVersion = kotlinBaseVersion
         }
     }
     compileTestKotlin {
         kotlinOptions {
             jvmTarget = kotlinCompatibilityVersion
+            apiVersion = kotlinBaseVersion
+            languageVersion = kotlinBaseVersion
         }
     }
 
@@ -71,7 +75,13 @@ tasks {
         }
     }
 
+    graalvmNative {
+        toolchainDetection.set(false)
+    }
+
     micronaut {
+        application.mainClass.set("xyz.chrisime.monitoring.micronaut.ApplicationMainKt")
+
         enableNativeImage(false)
                 .version(micronautVersion)
                 .runtime(MicronautRuntime.UNDERTOW)
@@ -79,10 +89,7 @@ tasks {
 
         processing {
             incremental(true)
+            annotations("xyz.chrisime")
         }
-    }
-
-    graalvmNative {
-        toolchainDetection.set(false)
     }
 }

@@ -80,8 +80,6 @@ tasks {
     }
 
     micronaut {
-        application.mainClass.set("xyz.chrisime.monitoring.micronaut.ApplicationMainKt")
-
         enableNativeImage(false)
                 .version(micronautVersion)
                 .runtime(MicronautRuntime.UNDERTOW)
@@ -92,4 +90,7 @@ tasks {
             annotations("xyz.chrisime")
         }
     }
+
+    application { mainClass.set("xyz.chrisime.monitoring.micronaut.ApplicationMain") }
+
 }

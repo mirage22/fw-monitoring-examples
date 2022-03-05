@@ -1,7 +1,12 @@
+import io.micronaut.gradle.MicronautRuntime
+import io.micronaut.gradle.MicronautTestRuntime
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+
 plugins {
     id "idea"
     id "eclipse"
-    id "io.micronaut.application" version "$micronautVersion"
+    id "io.micronaut.application" version "3.2.2"
     id "com.github.johnrengelman.shadow" version "$shadowVersion"
 }
 
@@ -17,7 +22,7 @@ application {
 }
 
 dependencies {
-    annotationProcessor("io.micronaut:micronaut-http-validation")
+    annotationProcessor(platform("io.micronaut:micronaut-bom:${micronautVersion}"))
     implementation("io.micronaut:micronaut-management")
     implementation("io.micronaut:micronaut-runtime")
 
@@ -32,14 +37,29 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 
+test {
+    useJUnitPlatform()
+
+    testLogging {
+        showExceptions = true
+        showCauses = true
+        showStackTraces = true
+        showStandardStreams = true
+        exceptionFormat = TestExceptionFormat.FULL
+        displayGranularity = 2
+
+        events(TestLogEvent.FAILED, TestLogEvent.SKIPPED, TestLogEvent.PASSED)
+    }
+}
+
 graalvmNative.toolchainDetection = false
 
 micronaut {
-    version("${micronautVersion}")
-    runtime("netty")
-    testRuntime("junit5")
+    enableNativeImage(false)
+            .version(micronautVersion)
+            .runtime(MicronautRuntime.UNDERTOW)
+            .testRuntime(MicronautTestRuntime.JUNIT_5)
 
-    processing {
-        incremental(true)
-    }
+    processing.incremental(true)
+    processing.annotations("xyz.chrisime")
 }

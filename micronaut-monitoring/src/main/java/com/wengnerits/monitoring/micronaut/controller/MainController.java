@@ -28,7 +28,7 @@ import io.prometheus.client.exporter.common.TextFormat;
 import java.util.HashMap;
 import java.util.Map;
 
-@Controller("/")
+@Controller
 public class MainController {
 
     private final Counter helloCounter;
@@ -53,7 +53,6 @@ public class MainController {
 
     @Get(processes = MediaType.TEXT_PLAIN, value = "{name}")
     public String hello(@PathVariable String name) {
-        nameCounterBuilder.tag("name", name).register(registry);
         getNameCounter(name).increment();
         return """
             Hello '$name'

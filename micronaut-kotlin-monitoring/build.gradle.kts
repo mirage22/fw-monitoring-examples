@@ -27,7 +27,9 @@ repositories {
 }
 
 dependencies {
-    implementation(platform("io.micronaut:micronaut-bom:${micronautVersion}"))
+    kapt(platform("io.micronaut:micronaut-bom:${micronautVersion}"))
+
+    implementation(enforcedPlatform("io.micronaut:micronaut-bom:${micronautVersion}"))
     implementation("io.micronaut:micronaut-management")
     implementation("io.micronaut:micronaut-runtime")
 

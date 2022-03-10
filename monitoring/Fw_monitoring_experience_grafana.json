@@ -22,7 +22,7 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": 9,
-  "iteration": 1646738633628,
+  "iteration": 1646925465903,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -135,6 +135,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "description": "",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -142,6 +143,215 @@
         "w": 12,
         "x": 12,
         "y": 0
+      },
+      "hiddenSeries": false,
+      "id": 22,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.5.0-51645pre",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "eeDP0Cank"
+          },
+          "exemplar": true,
+          "expr": "rate(jvm_gc_memory_allocated_bytes_total{job=\"$job\"}[1m])",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "allocation rate",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "eeDP0Cank"
+          },
+          "exemplar": true,
+          "expr": "rate(jvm_gc_memory_promoted_bytes_total{job=\"$job\"}[1m])",
+          "hide": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "promotion rate",
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "GC Allocation and Promotion Rate",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:631",
+          "format": "decbytes",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:632",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 0,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "id": 16,
+      "options": {
+        "displayMode": "gradient",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true
+      },
+      "pluginVersion": "8.5.0-51645pre",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "eeDP0Cank"
+          },
+          "exemplar": true,
+          "expr": "sum(http_server_requests_seconds_count{job=\"micronaut-monitoring\", method=\"GET\", uri!=\"/metrics\"})",
+          "format": "time_series",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "micronaut-java",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "eeDP0Cank"
+          },
+          "exemplar": true,
+          "expr": "sum( http_server_requests_seconds_count{job=\"spring-boot-monitoring\", method=\"GET\", uri!=\"/metrics\"})",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "spring-java",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "eeDP0Cank"
+          },
+          "exemplar": false,
+          "expr": "sum( http_server_requests_seconds_count{job=\"quarkus-java-monitoring\", method=\"GET\", uri!=\"/metrics\"})",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "quarkus-java",
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "eeDP0Cank"
+          },
+          "exemplar": true,
+          "expr": "sum( ktor_http_server_requests_seconds_count{job=\"ktor-monitoring\", method=\"GET\", uri!=\"/metrics\"})",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "ktor-kotlin",
+          "refId": "D"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "eeDP0Cank"
+          },
+          "exemplar": true,
+          "expr": "sum( http_server_requests_seconds_count{job=\"spring-boot-kotlin-monitoring\", method=\"GET\", uri!=\"/metrics\"})",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "spring-kotlin",
+          "refId": "E"
+        }
+      ],
+      "title": "Java-Server-Request-GET",
+      "type": "bargauge"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
       },
       "hiddenSeries": false,
       "id": 14,
@@ -205,233 +415,6 @@
         },
         {
           "$$hashKey": "object:2188",
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
-    },
-    {
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 0,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 8
-      },
-      "id": 16,
-      "options": {
-        "displayMode": "gradient",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showUnfilled": true
-      },
-      "pluginVersion": "8.5.0-51645pre",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "eeDP0Cank"
-          },
-          "exemplar": true,
-          "expr": "sum(http_server_requests_seconds_count{job=\"micronaut-monitoring\", method=\"GET\", uri!=\"/metrics\"})",
-          "format": "time_series",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "micronaut-java",
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "eeDP0Cank"
-          },
-          "exemplar": true,
-          "expr": "sum( http_server_requests_seconds_count{job=\"spring-boot-monitoring\", method=\"GET\", uri!=\"/metrics\"})",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "spring-java",
-          "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "eeDP0Cank"
-          },
-          "exemplar": false,
-          "expr": "sum( http_server_requests_seconds_count{job=\"quarkus-java-monitoring\", method=\"GET\", uri!=\"/metrics\"})",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "quarkus-java",
-          "refId": "C"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "eeDP0Cank"
-          },
-          "exemplar": true,
-          "expr": "sum( ktor_http_server_requests_seconds_count{job=\"ktor-monitoring\", method=\"GET\", uri!=\"/metrics\"})",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "ktor-kotlin",
-          "refId": "D"
-        }
-      ],
-      "title": "Java-Server-Request-GET",
-      "type": "bargauge"
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 8
-      },
-      "hiddenSeries": false,
-      "hideTimeOverride": true,
-      "id": 12,
-      "interval": "5s",
-      "legend": {
-        "alignAsTable": true,
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "rightSide": true,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 3,
-      "maxDataPoints": 248,
-      "nullPointMode": "null",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "8.5.0-51645pre",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "eeDP0Cank"
-          },
-          "exemplar": false,
-          "expr": "sum( increase( http_server_requests_seconds_count{job=\"$job\", route!=\"/metrics\"}[1m]))",
-          "format": "time_series",
-          "interval": "",
-          "legendFormat": "Total Request",
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "eeDP0Cank"
-          },
-          "exemplar": true,
-          "expr": "sum ( increase(http_server_requests_seconds_count{job=\"$job\", status=~\"^2..$\", route!=\"/metrics\"}[1m]))",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "2XX Success Rate",
-          "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "eeDP0Cank"
-          },
-          "exemplar": true,
-          "expr": "sum ( increase(http_server_requests_seconds_count{job=\"$job\", status=~\"^4..$\", route!=\"/metrics\"}[1m]))",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "4XX Errors Rate",
-          "refId": "D"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "eeDP0Cank"
-          },
-          "exemplar": true,
-          "expr": "sum ( increase(http_server_requests_seconds_count{job=\"micronaut-monitoring\", status=~\"^5..$\", route!=\"/metrics\"}[1m]))",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "5XX Errors Rate",
-          "refId": "C"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": "1h",
-      "timeRegions": [],
-      "timeShift": "1h",
-      "title": "Java-Http-Total-Requests and Error (per sec),",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "$$hashKey": "object:1680",
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        },
-        {
-          "$$hashKey": "object:1681",
           "format": "short",
           "logBase": 1,
           "show": true
@@ -786,6 +769,134 @@
       "type": "stat"
     },
     {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 16
+      },
+      "hiddenSeries": false,
+      "hideTimeOverride": true,
+      "id": 12,
+      "interval": "5s",
+      "legend": {
+        "alignAsTable": false,
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "maxDataPoints": 248,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.5.0-51645pre",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "eeDP0Cank"
+          },
+          "exemplar": false,
+          "expr": "sum( increase( http_server_requests_seconds_count{job=\"$job\", route!=\"/metrics\"}[1m]))",
+          "format": "time_series",
+          "interval": "",
+          "legendFormat": "Total Request",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "eeDP0Cank"
+          },
+          "exemplar": true,
+          "expr": "sum ( increase(http_server_requests_seconds_count{job=\"$job\", status=~\"^2..$\", route!=\"/metrics\"}[1m]))",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "2XX Success Rate",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "eeDP0Cank"
+          },
+          "exemplar": true,
+          "expr": "sum ( increase(http_server_requests_seconds_count{job=\"$job\", status=~\"^4..$\", route!=\"/metrics\"}[1m]))",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "4XX Errors Rate",
+          "refId": "D"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "eeDP0Cank"
+          },
+          "exemplar": true,
+          "expr": "sum ( increase(http_server_requests_seconds_count{job=\"micronaut-monitoring\", status=~\"^5..$\", route!=\"/metrics\"}[1m]))",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "5XX Errors Rate",
+          "refId": "C"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": "1h",
+      "timeRegions": [],
+      "timeShift": "1h",
+      "title": "Java-Http-Total-Requests and Error (per sec),",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:1680",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:1681",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1133,6 +1244,362 @@
       "fieldConfig": {
         "defaults": {
           "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "index": 2,
+                  "text": "DOWN"
+                },
+                "1": {
+                  "index": 1,
+                  "text": "UP"
+                },
+                "null": {
+                  "index": 0,
+                  "text": "DOWN"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 0
+              },
+              {
+                "color": "dark-green",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 0,
+        "y": 22
+      },
+      "id": 23,
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.5.0-51645pre",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "eeDP0Cank"
+          },
+          "exemplar": true,
+          "expr": "up{job=\"spring-boot-kotlin-monitoring\"}",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Spring-Boot-Kt-Status",
+      "type": "stat"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 24
+      },
+      "hiddenSeries": false,
+      "id": 21,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.5.0-51645pre",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "eeDP0Cank"
+          },
+          "exemplar": true,
+          "expr": "rate(http_server_requests_seconds_count{job=\"$job\", uri!=\"/metrics\"}[1m])",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "{{uri}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Java-Response Time",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:71",
+          "format": "s",
+          "label": "Time",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:72",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "index": 2,
+                  "text": "DOWN"
+                },
+                "1": {
+                  "index": 1,
+                  "text": "UP"
+                },
+                "null": {
+                  "index": 0,
+                  "text": "DOWN"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 0
+              },
+              {
+                "color": "dark-green",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "dthms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 0,
+        "y": 25
+      },
+      "id": 24,
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.5.0-51645pre",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "eeDP0Cank"
+          },
+          "exemplar": true,
+          "expr": "process_uptime_seconds{job=\"spring-boot-kotlin-monitoring\"}",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Spring-Boot-Kt-Up Time",
+      "type": "stat"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 28
+      },
+      "hiddenSeries": false,
+      "id": 20,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.5.0-51645pre",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "eeDP0Cank"
+          },
+          "exemplar": true,
+          "expr": "rate(ktor_http_server_requests_seconds{route!=\"/metrics\", quantile=\"0.95\"}[1m])",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "{{route}} 95%",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "eeDP0Cank"
+          },
+          "exemplar": true,
+          "expr": "",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "KTor-Response Time of 95% requests",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:71",
+          "format": "s",
+          "label": "Time",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:72",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "color": {
             "mode": "palette-classic"
           },
           "custom": {
@@ -1184,7 +1651,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 22
+        "y": 36
       },
       "id": 11,
       "options": {
@@ -1239,7 +1706,7 @@
       "type": "timeseries"
     }
   ],
-  "refresh": false,
+  "refresh": "5s",
   "schemaVersion": 35,
   "style": "dark",
   "tags": [],
@@ -1247,9 +1714,9 @@
     "list": [
       {
         "current": {
-          "selected": true,
-          "text": "spring-boot-monitoring",
-          "value": "spring-boot-monitoring"
+          "selected": false,
+          "text": "spring-boot-kotlin-monitoring",
+          "value": "spring-boot-kotlin-monitoring"
         },
         "definition": "label_values(job)",
         "description": "",
@@ -1272,13 +1739,13 @@
     ]
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-15m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "FW-Monitoring-Experiences",
   "uid": "n0gzZwB7z",
-  "version": 4,
+  "version": 8,
   "weekStart": ""
 }

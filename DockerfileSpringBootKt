@@ -1,18 +1,21 @@
-FROM eclipse-temurin:17-centos7 as build
-RUN mkdir /app_build
-COPY . /app_build
-
-WORKDIR /app_build
-
-RUN ./gradlew clean build bootJar -p spring-boot-kotlin-monitoring
+#FROM eclipse-temurin:17-centos7 as build
+#RUN mkdir /app_build
+#COPY . /app_build
+#
+#WORKDIR /app_build
+#
+#RUN ./gradlew clean build bootJar -p spring-boot-kotlin-monitoring
 
 FROM eclipse-temurin:17-centos7
 
 RUN mkdir /app
 RUN mkdir /app/resources
 
-COPY --from=build /app_build/spring-boot-kotlin-monitoring/build/libs/*-monitoring*T.jar /app/app-monitoring.jar
-COPY --from=build /app_build/spring-boot-kotlin-monitoring/src/main/resources/ /app/resources/
+#COPY --from=build /app_build/spring-boot-kotlin-monitoring/build/libs/*-monitoring*T.jar /app/app-monitoring.jar
+#COPY --from=build /app_build/spring-boot-kotlin-monitoring/src/main/resources/ /app/resources/
+COPY spring-boot-kotlin-monitoring/build/libs/*-monitoring*T.jar /app/app-monitoring.jar
+COPY spring-boot-kotlin-monitoring/src/main/resources/ /app/resources/
+
 
 WORKDIR /app
 

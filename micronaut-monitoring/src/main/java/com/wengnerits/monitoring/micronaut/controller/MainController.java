@@ -17,7 +17,6 @@
 
 package com.wengnerits.monitoring.micronaut.controller;
 
-
 import com.wengnerits.monitoring.micronaut.service.HelloService;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.prometheus.PrometheusMeterRegistry;
@@ -26,11 +25,10 @@ import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.PathVariable;
 import io.prometheus.client.exporter.common.TextFormat;
-
 import java.util.HashMap;
 import java.util.Map;
 
-@Controller("/")
+@Controller
 public class MainController {
 
     private final Counter helloCounter;
@@ -55,11 +53,10 @@ public class MainController {
 
     @Get(processes = MediaType.TEXT_PLAIN, value = "{name}")
     public String hello(@PathVariable String name) {
-        nameCounterBuilder.tag("name", name).register(registry);
         getNameCounter(name).increment();
         return """
-                Hello '$name'
-                """.replace("$name", name);
+            Hello '$name'
+            """.replace("$name", name);
     }
 
     @Get(processes = MediaType.TEXT_PLAIN, value = "/metrics")

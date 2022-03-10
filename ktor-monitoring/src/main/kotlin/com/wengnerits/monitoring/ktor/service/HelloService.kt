@@ -24,6 +24,7 @@ import java.util.concurrent.TimeUnit.SECONDS
 
 interface HelloService : KoinComponent {
     fun hello(): String
+    fun name(n: String?): String
     fun init(): Boolean
     fun action(): Unit
 }
@@ -35,6 +36,8 @@ class HelloServiceImpl() : HelloService {
     }
 
     override fun hello() = "Welcome KTor monitoring example"
+    override fun name(n: String?): String = "Hello name:'$n'"
+
     override fun init(): Boolean {
         runBlocking {
             SECONDS.sleep(randomInt())

@@ -58,6 +58,11 @@ fun Route.getMainRoutes() {
         }
     }
 
+    get("/{name}") {
+        metricsService.nameCount()
+        call.respondText(helloService.name(call.parameters["name"]), status = HttpStatusCode.OK)
+    }
+
     get("/timer") {
         metricsService.simpleTimer().record() {
             runBlocking {

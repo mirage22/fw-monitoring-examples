@@ -22,16 +22,18 @@ import com.wengnerits.monitoring.ktor.route.registerMainRoutes
 import io.ktor.application.Application
 import io.ktor.application.ApplicationCallPipeline
 import io.ktor.application.install
+import io.ktor.application.log
 import io.ktor.features.ContentNegotiation
 import io.ktor.routing.Routing
 import io.ktor.serialization.json
 import io.ktor.server.netty.EngineMain
 import org.koin.ktor.ext.Koin
+import java.util.concurrent.atomic.AtomicLong
 
 fun main(args: Array<String>): Unit = EngineMain.main(args)
 
 fun Application.module(testing: Boolean = false) {
-
+    val interceptCounter = AtomicLong(0)
     install(Koin) {
         modules(
             listOf(
@@ -46,7 +48,7 @@ fun Application.module(testing: Boolean = false) {
 
     install(Routing) {
         intercept(ApplicationCallPipeline.Call) {
-            println("application-monitoring called")
+            println("application-monitoring called, count:'${interceptCounter.incrementAndGet()}'")
         }
     }
 

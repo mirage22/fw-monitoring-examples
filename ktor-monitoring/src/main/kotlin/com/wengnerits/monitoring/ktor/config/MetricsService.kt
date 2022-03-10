@@ -35,18 +35,29 @@ class MetricsService : KoinComponent {
     }
 
     private val helloCounter = Counter
-        .builder("main")
+        .builder("hello-counter")
         .description("hello counter")
         .tag("application", APP_NAME)
         .tag("section", "hello")
         .register(registry)
 
-    private val mainTimer: Timer = registry.timer("ktor-monitoring-main-timer")
-    private val simpleTimer: Timer = registry.timer("ktor-monitoring-simple-timer")
-    private val longTaskTimer: LongTaskTimer = LongTaskTimer.builder("ktor-monitoring-long-task-timer").register(registry)
+    private val nameCounter = Counter
+        .builder("name-counter")
+        .description("name counter")
+        .tag("application", APP_NAME)
+        .tag("section", "name")
+        .register(registry)
+
+    private val mainTimer: Timer = registry.timer("monitoring-main-timer")
+    private val simpleTimer: Timer = registry.timer("monitoring-simple-timer")
+    private val longTaskTimer: LongTaskTimer = LongTaskTimer.builder("monitoring-long-task-timer").register(registry)
 
     fun helloCount() {
         helloCounter.increment()
+    }
+
+    fun nameCount(){
+        nameCounter.increment()
     }
 
     fun registryScrape(): String = registry.scrape()

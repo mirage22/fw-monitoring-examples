@@ -8,20 +8,37 @@ if [[ "`uname -m`" =~ "arm64" ]]; then
   ARCH_TYPE="arm64"
 fi
 
-function buildKtorImage(){
- docker build -f ./DockerfileKTor --platform "${ARCH_TYPE}" --no-cache -t ktor-monitoring .
+function statusMessage() {
+  echo "$1 image: '$2' , arch:'${ARCH_TYPE}'"
 }
 
+function buildKtorImage(){
+  local imageType="ktor-monitoring"
+  statusMessage "building" $imageType
+  docker build -f ./DockerfileKTor --platform "${ARCH_TYPE}" --no-cache --progress=plain -t ktor-monitoring .
+  statusMessage "finished" $imageType
+}
+
+
 function buildMicronautJavaImage(){
-  docker build -f ./DockerfileMicronaut --platform "${ARCH_TYPE}" --no-cache -t micronaut-monitoring .
+  local imageType="micronaut-monitoring"
+  statusMessage "building" $imageType
+  docker build -f ./DockerfileMicronaut --platform "${ARCH_TYPE}" --no-cache --progress=plain -t micronaut-monitoring .
+  statusMessage "finished" $imageType
 }
 
 function buildSpringBootJavaImage(){
-  docker build -f ./DockerfileSpringBoot --platform "${ARCH_TYPE}" --no-cache -t spring-boot-monitoring .
+  local imageType="spring-boot-monitoring"
+  statusMessage "building" $imageType
+  docker build -f ./DockerfileSpringBoot --platform "${ARCH_TYPE}" --no-cache --progress=plain -t spring-boot-monitoring .
+  statusMessage "finished" $imageType
 }
 
 function buildQuarkusJavaImage(){
-  docker build -f ./DockerfileQuarkusJava --platform "${ARCH_TYPE}" --no-cache -t quarkus-java-monitoring .
+  local imageType="quarkus-monitoring"
+  statusMessage "building" $imageType
+  docker build -f ./DockerfileQuarkusJava --platform "${ARCH_TYPE}" --no-cache --progress=plain -t quarkus-java-monitoring .
+  statusMessage "finished" $imageType
 }
 
 function error_print() {

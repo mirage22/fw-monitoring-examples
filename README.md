@@ -21,14 +21,17 @@ Note: update your gradle wrapper!!!
 
 # How to prepare
 execute the following commands
-1. appropriate docker images should be downloaded
+1. build the project from the root `$ gradlew clean build`
 2. Building Framework Images: `$ buildMonitoringContainers.sh`
 3. Run a docker-compose file
 4. Folder "monitoring" contains a Grafana dashboard files
 
+# Building
+
 # How to access Prometheus and Grafana
 1. Promeheus `http:\\localhost:3500`
 2. Grafana `http:\\localhost:3000`
+
 
 
 

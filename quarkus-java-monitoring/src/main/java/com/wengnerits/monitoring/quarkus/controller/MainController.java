@@ -39,10 +39,10 @@ public class MainController {
 
     MainController(final PrometheusMeterRegistry registry, final HelloService helloService) {
         this.registry = registry;
-        this.helloCounter = Counter.builder("quarkus-hello-counter")
+        this.helloCounter = Counter.builder("hello-counter")
                 .tag("application", "quarkus")
                 .register(registry);
-        this.nameCounterBuilder = Counter.builder("quarkus-name-counter")
+        this.nameCounterBuilder = Counter.builder("name-counter")
                 .tag("application", "quarkus");
         this.helloService = helloService;
     }
@@ -58,7 +58,6 @@ public class MainController {
     @Produces("text/plain")
     @Path("{name}")
     public String helloWithName(@PathParam("name") String name) {
-        nameCounterBuilder.tag("name", name).register(registry);
         getNameCounter(name).increment();
         return """
                 Hello name:'$name'

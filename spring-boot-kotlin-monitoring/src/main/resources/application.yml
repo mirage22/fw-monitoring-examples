@@ -1,0 +1,8 @@
+server:
+  port: 3804
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics

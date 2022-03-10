@@ -42,7 +42,7 @@ public class MainController {
 
     @Autowired
     public MainController(PrometheusMeterRegistry registry, HelloService helloService) {
-        this.helloCounter = registry.counter("hello-counter", "application", "spring-boot");
+        this.helloCounter = registry.counter("index-counter", "application", "spring-boot");
         this.nameCounterBuilder = Counter.builder("name-counter").tag("application", "spring-boot");
         this.helloService = helloService;
         this.registry = registry;

@@ -4,7 +4,7 @@ set -e # exit when non-zero return
 SCRIPT_NAME=$(basename "$0")
 ARCH_TYPE="x86_64"
 # detect the platform
-if [[ "`uname -m`" =~ "arm64" ]]; then
+if [[ "$(uname -m)" =~ "arm64" ]]; then
   ARCH_TYPE="arm64"
 fi
 
@@ -34,6 +34,10 @@ function buildSpringBootJavaImage(){
   statusMessage "finished" $imageType
 }
 
+function buildSpringBootKotlinImage(){
+  docker build -f ./DockerfileSpringBootKt --platform "${ARCH_TYPE}" --no-cache -t spring-boot-kotlin-monitoring .
+}
+
 function buildQuarkusJavaImage(){
   local imageType="quarkus-monitoring"
   statusMessage "building" $imageType
@@ -42,7 +46,7 @@ function buildQuarkusJavaImage(){
 }
 
 function error_print() {
-    echo "$@" >&2
+  echo "$@" >&2
 }
 
 function displayHelp(){
@@ -52,9 +56,9 @@ function displayHelp(){
     printf " \t%s\t%s\n" "--ktor" "build KTor docker image"
     printf " \t%s\t%s\n" "--micronaut-java" "build Micronaut-Java docker image"
     printf " \t%s\t%s\n" "--spring-boot-java" "build Spring-Boot-Java docker image"
+    printf " \t%s\t%s\n" "--spring-boot-kotlin" "build Spring-Boot-Kotlin docker image"
     printf " \t%s\t%s\n" "--quarkus-java" "build Quarkus-Java docker image"
     printf " \t%s\t%s\n" "--buildAll" "build all available images"
-
   } | column -ts $'\t'
 }
 
@@ -73,6 +77,9 @@ function parseArgs(){
             ;;
         --spring-boot-java)
             buildSpringBootJavaImage
+            ;;
+        --spring-boot-kotlin)
+            buildSpringBootKotlinImage
             ;;
         --quarkus-java)
             buildQuarkusJavaImage

@@ -12,7 +12,7 @@ function statusMessage() {
   echo "$1 image: '$2' , arch:'${ARCH_TYPE}', dockerFile:'$3'"
 }
 
-function buildDockerImageByProjectName(){
+function buildDockerImageByProjectName() {
   if [[ -z "$1" && -z "$2" ]]; then
     displayHelp
     exit 1
@@ -24,15 +24,11 @@ function buildDockerImageByProjectName(){
   statusMessage "building" $projectName $dockerFileName
 }
 
-function buildQuarkusKotlinImage(){
-  docker build -f ./DockerfileQuarkusKotlin --platform "${ARCH_TYPE}" --no-cache -t quarkus-kotlin-monitoring .
-}
-
 function error_print() {
   echo "$@" >&2
 }
 
-function displayHelp(){
+function displayHelp() {
   echo "usage: $ ./${SCRIPT_NAME} with options:"
   {
     printf " \t%s\t%s\n" "--help" "show the help dialog"
@@ -47,7 +43,7 @@ function displayHelp(){
   } | column -ts $'\t'
 }
 
-function parseArgs(){
+function parseArgs() {
   while [ $# -gt 0 ]; do
       case "$1" in
         --help)
@@ -70,10 +66,10 @@ function parseArgs(){
             buildDockerImageByProjectName "DockerfileSpringBootKt" "spring-boot-kotlin-monitoring"
             ;;
         --quarkus-java)
-            buildDockerImageByProjectName "DockerfileQuarkusJava" "quarkus-monitoring"
+            buildDockerImageByProjectName "DockerfileQuarkusJava" "quarkus-java-monitoring"
             ;;
         --quarkus-kotlin)
-            buildQuarkusKotlinImage
+            buildQuarkusKotlinImage "DockerfileQuarkusKotlin" "quarkus-kotlin-monitoring"
             ;;
         --buildAll)
             buildDockerImageByProjectName "DockerfileKTor" "ktor-monitoring"
@@ -82,6 +78,7 @@ function parseArgs(){
             buildDockerImageByProjectName "DockerfileSpringBoot" "spring-boot-monitoring"
             buildDockerImageByProjectName "DockerfileSpringBootKt" "spring-boot-kotlin-monitoring"
             buildDockerImageByProjectName "DockerfileQuarkusJava" "quarkus-java-monitoring"
+            buildDockerImageByProjectName "DockerfileQuarkusKotlin" "quarkus-kotlin-monitoring"
             ;;
         *)
             error_print "unknown arguments: $@"

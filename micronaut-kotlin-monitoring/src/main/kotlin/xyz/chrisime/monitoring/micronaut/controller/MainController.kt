@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022, Miroslav Wengner
+ * Copyright (c) 2022, Miroslav Wengner(mirage22), Christian Meyer (chrisme)
  *
  * fw-monitoring-examples is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +14,7 @@
  * You should have received a copy of the GNU General Public License
  *  along with fw-monitoring-examples. If not, see <http://www.gnu.org/licenses/>.
  */
+
 package xyz.chrisime.monitoring.micronaut.controller
 
 import io.micrometer.core.instrument.Counter
@@ -35,7 +36,7 @@ class MainController(private val registry: PrometheusMeterRegistry, private val 
     @Get(processes = [MediaType.TEXT_PLAIN])
     fun hello(): String {
         helloCounter.increment()
-        return helloService.hallo()
+        return helloService.hello()
     }
 
     @Get(processes = [MediaType.TEXT_PLAIN], value = "{name}")

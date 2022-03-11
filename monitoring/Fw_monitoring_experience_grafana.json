@@ -22,7 +22,7 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": 9,
-  "iteration": 1646925465903,
+  "iteration": 1647004896447,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -335,6 +335,18 @@
           "interval": "",
           "legendFormat": "spring-kotlin",
           "refId": "E"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "eeDP0Cank"
+          },
+          "exemplar": true,
+          "expr": "sum( http_server_requests_seconds_count{job=\"micronaut-kotlin-monitoring\", method=\"GET\", uri!=\"/metrics\"})",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "micronaut-kt",
+          "refId": "F"
         }
       ],
       "title": "Java-Server-Request-GET",
@@ -1327,6 +1339,92 @@
       "type": "stat"
     },
     {
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "index": 2,
+                  "text": "DOWN"
+                },
+                "1": {
+                  "index": 1,
+                  "text": "UP"
+                },
+                "null": {
+                  "index": 0,
+                  "text": "DOWN"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 0
+              },
+              {
+                "color": "dark-green",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 3,
+        "y": 22
+      },
+      "id": 25,
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.5.0-51645pre",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "eeDP0Cank"
+          },
+          "exemplar": true,
+          "expr": "up{job=\"micronaut-kotlin-monitoring\"}",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Micronaut-Kt-Status",
+      "type": "stat"
+    },
+    {
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
@@ -1496,6 +1594,92 @@
         }
       ],
       "title": "Spring-Boot-Kt-Up Time",
+      "type": "stat"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "index": 2,
+                  "text": "DOWN"
+                },
+                "1": {
+                  "index": 1,
+                  "text": "UP"
+                },
+                "null": {
+                  "index": 0,
+                  "text": "DOWN"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 0
+              },
+              {
+                "color": "dark-green",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "dthms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 3,
+        "y": 25
+      },
+      "id": 26,
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.5.0-51645pre",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "eeDP0Cank"
+          },
+          "exemplar": true,
+          "expr": "process_uptime_seconds{job=\"micronaut-kotlin-monitoring\"}",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Micronaut-Kt-Up Time",
       "type": "stat"
     },
     {
@@ -1714,9 +1898,9 @@
     "list": [
       {
         "current": {
-          "selected": false,
-          "text": "spring-boot-kotlin-monitoring",
-          "value": "spring-boot-kotlin-monitoring"
+          "selected": true,
+          "text": "micronaut-kotlin-monitoring",
+          "value": "micronaut-kotlin-monitoring"
         },
         "definition": "label_values(job)",
         "description": "",
@@ -1746,6 +1930,6 @@
   "timezone": "",
   "title": "FW-Monitoring-Experiences",
   "uid": "n0gzZwB7z",
-  "version": 8,
+  "version": 12,
   "weekStart": ""
 }

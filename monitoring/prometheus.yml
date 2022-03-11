@@ -22,3 +22,7 @@ scrape_configs:
     metrics_path: /metrics
     static_configs:
       - targets: [ 'app-spring-boot-kt:3804' ]
+  - job_name: 'micronaut-kotlin-monitoring'
+    metrics_path: /metrics
+    static_configs:
+      - targets: [ 'app-micronaut-kt:3805' ]

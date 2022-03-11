@@ -9,44 +9,19 @@ if [[ "$(uname -m)" =~ "arm64" ]]; then
 fi
 
 function statusMessage() {
-  echo "$1 image: '$2' , arch:'${ARCH_TYPE}'"
+  echo "$1 image: '$2' , arch:'${ARCH_TYPE}', dockerFile:'$3'"
 }
 
-function buildKtorImage(){
-  local imageType="ktor-monitoring"
-  statusMessage "building" $imageType
-  docker build -f ./DockerfileKTor --platform "${ARCH_TYPE}" --no-cache --progress=plain -t ktor-monitoring .
-  statusMessage "finished" $imageType
-}
-
-
-function buildMicronautJavaImage(){
-  local imageType="micronaut-monitoring"
-  statusMessage "building" $imageType
-  docker build -f ./DockerfileMicronaut --platform "${ARCH_TYPE}" --no-cache --progress=plain -t micronaut-monitoring .
-  statusMessage "finished" $imageType
-}
-
-function buildMicronautKotlinImage(){
-  docker build -f ./DockerfileMicronautKt --platform "${ARCH_TYPE}" --no-cache -t micronaut-monitoring .
-}
-
-function buildSpringBootJavaImage(){
-  local imageType="spring-boot-monitoring"
-  statusMessage "building" $imageType
-  docker build -f ./DockerfileSpringBoot --platform "${ARCH_TYPE}" --no-cache --progress=plain -t spring-boot-monitoring .
-  statusMessage "finished" $imageType
-}
-
-function buildSpringBootKotlinImage(){
-  docker build -f ./DockerfileSpringBootKt --platform "${ARCH_TYPE}" --no-cache -t spring-boot-kotlin-monitoring .
-}
-
-function buildQuarkusJavaImage(){
-  local imageType="quarkus-monitoring"
-  statusMessage "building" $imageType
-  docker build -f ./DockerfileQuarkusJava --platform "${ARCH_TYPE}" --no-cache --progress=plain -t quarkus-java-monitoring .
-  statusMessage "finished" $imageType
+function buildDockerImageByProjectName(){
+  if [[ -z "$1" && -z "$2" ]]; then
+    displayHelp
+    exit 1
+  fi
+  local dockerFileName="$1"
+  local projectName="$2"
+  statusMessage "building" $projectName $dockerFileName
+  docker build -f "./${dockerFileName}" --platform "${ARCH_TYPE}" --no-cache -t "${projectName}" .
+  statusMessage "building" $projectName $dockerFileName
 }
 
 function error_print() {
@@ -75,28 +50,30 @@ function parseArgs(){
             exit 0
             ;;
         --ktor)
-            buildKtorImage
+            buildDockerImageByProjectName "DockerfileKTor" "ktor-monitoring"
             ;;
         --micronaut-java)
-            buildMicronautJavaImage
+            buildDockerImageByProjectName "DockerfileMicronaut" "micronaut-monitoring"
             ;;
         --micronaut-kotlin)
-            buildMicronautKotlinImage
+            buildDockerImageByProjectName "DockerfileMicronautKt" "micronaut-kotlin-monitoring"
             ;;
         --spring-boot-java)
-            buildSpringBootJavaImage
+            buildDockerImageByProjectName "DockerfileSpringBoot" "spring-boot-monitoring"
             ;;
         --spring-boot-kotlin)
-            buildSpringBootKotlinImage
+            buildDockerImageByProjectName "DockerfileSpringBootKt" "spring-boot-kotlin-monitoring"
             ;;
         --quarkus-java)
-            buildQuarkusJavaImage
+            buildDockerImageByProjectName "DockerfileQuarkusJava" "quarkus-monitoring"
             ;;
         --buildAll)
-            buildKtorImage
-            buildMicronautJavaImage
-            buildSpringBootJavaImage
-            buildQuarkusJavaImage
+            buildDockerImageByProjectName "DockerfileKTor" "ktor-monitoring"
+            buildDockerImageByProjectName "DockerfileMicronaut" "micronaut-monitoring"
+            buildDockerImageByProjectName "DockerfileMicronautKt" "micronaut-kotlin-monitoring"
+            buildDockerImageByProjectName "DockerfileSpringBoot" "spring-boot-monitoring"
+            buildDockerImageByProjectName "DockerfileSpringBootKt" "spring-boot-kotlin-monitoring"
+            buildDockerImageByProjectName "DockerfileQuarkusJava" "quarkus-java-monitoring"
             ;;
         *)
             error_print "unknown arguments: $@"
@@ -108,4 +85,8 @@ function parseArgs(){
   done
 }
 
+if [[ -z "$1" ]]; then
+  displayHelp
+  exit 1
+fi
 parseArgs "$@"

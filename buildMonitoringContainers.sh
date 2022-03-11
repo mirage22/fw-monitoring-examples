@@ -27,6 +27,10 @@ function buildMicronautJavaImage(){
   statusMessage "finished" $imageType
 }
 
+function buildMicronautKotlinImage(){
+  docker build -f ./DockerfileMicronautKt --platform "${ARCH_TYPE}" --no-cache -t micronaut-monitoring .
+}
+
 function buildSpringBootJavaImage(){
   local imageType="spring-boot-monitoring"
   statusMessage "building" $imageType
@@ -55,6 +59,7 @@ function displayHelp(){
     printf " \t%s\t%s\n" "--help" "show the help dialog"
     printf " \t%s\t%s\n" "--ktor" "build KTor docker image"
     printf " \t%s\t%s\n" "--micronaut-java" "build Micronaut-Java docker image"
+    printf " \t%s\t%s\n" "--micronaut-kotlin" "build Micronaut-Kotlin docker image"
     printf " \t%s\t%s\n" "--spring-boot-java" "build Spring-Boot-Java docker image"
     printf " \t%s\t%s\n" "--spring-boot-kotlin" "build Spring-Boot-Kotlin docker image"
     printf " \t%s\t%s\n" "--quarkus-java" "build Quarkus-Java docker image"
@@ -74,6 +79,9 @@ function parseArgs(){
             ;;
         --micronaut-java)
             buildMicronautJavaImage
+            ;;
+        --micronaut-kotlin)
+            buildMicronautKotlinImage
             ;;
         --spring-boot-java)
             buildSpringBootJavaImage

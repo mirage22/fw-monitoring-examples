@@ -22,7 +22,7 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": 9,
-  "iteration": 1647004896447,
+  "iteration": 1647261992186,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -321,7 +321,7 @@
           "expr": "sum( ktor_http_server_requests_seconds_count{job=\"ktor-monitoring\", method=\"GET\", uri!=\"/metrics\"})",
           "hide": false,
           "interval": "",
-          "legendFormat": "ktor-kotlin",
+          "legendFormat": "ktor-kt",
           "refId": "D"
         },
         {
@@ -333,7 +333,7 @@
           "expr": "sum( http_server_requests_seconds_count{job=\"spring-boot-kotlin-monitoring\", method=\"GET\", uri!=\"/metrics\"})",
           "hide": false,
           "interval": "",
-          "legendFormat": "spring-kotlin",
+          "legendFormat": "spring-kt",
           "refId": "E"
         },
         {
@@ -347,6 +347,18 @@
           "interval": "",
           "legendFormat": "micronaut-kt",
           "refId": "F"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "eeDP0Cank"
+          },
+          "exemplar": true,
+          "expr": "sum( http_server_requests_seconds_count{job=\"quarkus-kotlin-monitoring\", method=\"GET\", uri!=\"/metrics\"})",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "quarkus-kt",
+          "refId": "G"
         }
       ],
       "title": "Java-Server-Request-GET",
@@ -1425,6 +1437,92 @@
       "type": "stat"
     },
     {
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "index": 2,
+                  "text": "DOWN"
+                },
+                "1": {
+                  "index": 1,
+                  "text": "UP"
+                },
+                "null": {
+                  "index": 0,
+                  "text": "DOWN"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 0
+              },
+              {
+                "color": "dark-green",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 6,
+        "y": 22
+      },
+      "id": 27,
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.5.0-51645pre",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "eeDP0Cank"
+          },
+          "exemplar": true,
+          "expr": "up{job=\"quarkus-kotlin-monitoring\"}",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Quarkus-Kt-Status",
+      "type": "stat"
+    },
+    {
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
@@ -1683,6 +1781,92 @@
       "type": "stat"
     },
     {
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "index": 2,
+                  "text": "DOWN"
+                },
+                "1": {
+                  "index": 1,
+                  "text": "UP"
+                },
+                "null": {
+                  "index": 0,
+                  "text": "DOWN"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 0
+              },
+              {
+                "color": "dark-green",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "dthms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 6,
+        "y": 25
+      },
+      "id": 28,
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.5.0-51645pre",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "eeDP0Cank"
+          },
+          "exemplar": true,
+          "expr": "process_uptime_seconds{job=\"quarkus-kotlin-monitoring\"}",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Quarkus-Kt-Up Time",
+      "type": "stat"
+    },
+    {
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
@@ -1899,8 +2083,8 @@
       {
         "current": {
           "selected": true,
-          "text": "micronaut-kotlin-monitoring",
-          "value": "micronaut-kotlin-monitoring"
+          "text": "quarkus-kotlin-monitoring",
+          "value": "quarkus-kotlin-monitoring"
         },
         "definition": "label_values(job)",
         "description": "",
@@ -1930,6 +2114,6 @@
   "timezone": "",
   "title": "FW-Monitoring-Experiences",
   "uid": "n0gzZwB7z",
-  "version": 12,
+  "version": 13,
   "weekStart": ""
 }

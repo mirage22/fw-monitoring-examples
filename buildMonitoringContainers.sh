@@ -78,7 +78,7 @@ function parseArgs() {
             buildDockerImageByProjectName "DockerfileSpringBoot" "spring-boot-monitoring"
             buildDockerImageByProjectName "DockerfileSpringBootKt" "spring-boot-kotlin-monitoring"
             buildDockerImageByProjectName "DockerfileQuarkusJava" "quarkus-java-monitoring"
-            buildDockerImageByProjectName "DockerfileQuarkusKotlin" "quarkus-kotlin-monitoring"
+            buildDockerImageByProjectName "DockerfileQuarkusKt" "quarkus-kotlin-monitoring"
             ;;
         *)
             error_print "unknown arguments: $@"

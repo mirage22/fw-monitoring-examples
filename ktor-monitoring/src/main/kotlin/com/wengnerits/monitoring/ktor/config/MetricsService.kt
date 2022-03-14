@@ -33,6 +33,7 @@ class MetricsService : KoinComponent {
     val registry = PrometheusMeterRegistry(PrometheusConfig.DEFAULT).apply {
         config().commonTags("application", APP_NAME)
     }
+    private val counters = mutableMapOf<String, Counter>()
 
     private val helloCounter = Counter
         .builder("hello-counter")
@@ -41,12 +42,10 @@ class MetricsService : KoinComponent {
         .tag("section", "hello")
         .register(registry)
 
-    private val nameCounter = Counter
+    private val nameCounterBuilder = Counter
         .builder("name-counter")
         .description("name counter")
         .tag("application", APP_NAME)
-        .tag("section", "name")
-        .register(registry)
 
     private val mainTimer: Timer = registry.timer("monitoring-main-timer")
     private val simpleTimer: Timer = registry.timer("monitoring-simple-timer")
@@ -56,8 +55,10 @@ class MetricsService : KoinComponent {
         helloCounter.increment()
     }
 
-    fun nameCount(){
-        nameCounter.increment()
+    fun nameCount(name: String) {
+        counters.getOrPut(name) {
+            nameCounterBuilder.tag("name", name).register(registry)
+        }.increment()
     }
 
     fun registryScrape(): String = registry.scrape()

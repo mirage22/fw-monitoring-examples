@@ -21,6 +21,7 @@ group = "xyz.chrisime.monitoring.micronaut"
 val kotlinCompatibilityVersion: String by project
 val kotlinBaseVersion: String by project
 val micronautVersion: String by project
+val micronautMicrometerVersion: String by project
 
 repositories {
     mavenCentral()
@@ -35,8 +36,8 @@ dependencies {
 
     implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
 
-    implementation("io.micronaut.micrometer:micronaut-micrometer-core")
-    implementation("io.micronaut.micrometer:micronaut-micrometer-registry-prometheus")
+    implementation("io.micronaut.micrometer:micronaut-micrometer-core:${micronautMicrometerVersion}")
+    implementation("io.micronaut.micrometer:micronaut-micrometer-registry-prometheus:${micronautMicrometerVersion}")
 
     runtimeOnly("ch.qos.logback:logback-classic")
 }

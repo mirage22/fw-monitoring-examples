@@ -10,6 +10,8 @@ plugins {
 group = "com.wengnerits.monitoring.spring.boot.kt"
 version = "0.0.1-SNAPSHOT"
 
+val micrometerVersion:String by project
+val usedJavaVersion = JavaVersion.VERSION_17
 val kotlinCompatibilityVersion = "16"
 
 repositories {
@@ -18,8 +20,8 @@ repositories {
 
 tasks {
     java {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = usedJavaVersion
+        targetCompatibility = usedJavaVersion
     }
 
     jar {
@@ -34,26 +36,16 @@ tasks {
 
     compileKotlin {
         kotlinOptions {
-            jvmTarget = kotlinCompatibilityVersion
-        }
-    }
-
-    compileTestKotlin {
-        kotlinOptions {
-            jvmTarget = kotlinCompatibilityVersion
+            jvmTarget = usedJavaVersion.toString()
         }
     }
 }
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
-    implementation("org.springframework.boot:spring-boot-starter-undertow")
-    implementation("org.springframework.boot:spring-boot-starter-web") {
-        exclude(module = "spring-boot-starter-tomcat")
-    }
+    implementation("org.springframework.boot:spring-boot-starter-reactor-netty")
+    implementation("org.springframework.boot:spring-boot-starter-web")
 
-    implementation("io.micrometer:micrometer-core")
-    implementation("io.micrometer:micrometer-registry-prometheus")
-
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    implementation("io.micrometer:micrometer-core:${micrometerVersion}")
+    implementation("io.micrometer:micrometer-registry-prometheus:${micrometerVersion}")
 }

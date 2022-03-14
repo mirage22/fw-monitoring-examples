@@ -59,8 +59,9 @@ fun Route.getMainRoutes() {
     }
 
     get("/{name}") {
-        metricsService.nameCount()
-        call.respondText(helloService.name(call.parameters["name"]), status = HttpStatusCode.OK)
+        val paramName = call.parameters["name"] ?: "nobody"
+        metricsService.nameCount(paramName)
+        call.respondText(helloService.name(paramName), status = HttpStatusCode.OK)
     }
 
     get("/timer") {

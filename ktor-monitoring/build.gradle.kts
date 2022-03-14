@@ -11,11 +11,13 @@ val java_version: String by project
 val ktor_metrics_micrometer_version: String by project
 val ktor_micrometer_prometheus_version: String by project
 
+val kotlinCompatibilityVersion = "1.6"
+
 plugins {
     application
-    kotlin("jvm") version "1.5.30"
-    kotlin("plugin.serialization") version "1.5.30"
-    id ("com.github.johnrengelman.shadow") version "7.1.2"
+    kotlin("jvm") version "1.6.10"
+    kotlin("plugin.serialization") version "1.6.10"
+    id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
 group = "com.wengnerits.monitoring.ktor"
@@ -24,7 +26,6 @@ version = "1.0-SNAPSHOT"
 application {
     mainClass.set("com.wengnerits.monitoring.ktor.ApplicationKt")
 }
-
 
 dependencies {
     implementation("io.ktor:ktor-server-core:$ktor_version")
@@ -42,27 +43,40 @@ dependencies {
     testImplementation("io.ktor:ktor-server-tests:$ktor_version")
     testImplementation("org.jetbrains.kotlin:kotlin-test:$kotlin_version")
 }
+
 repositories {
     mavenCentral()
 }
 
-tasks.test {
-    useJUnitPlatform()
-    testLogging {
-        showExceptions = true
-        showCauses = true
-        showStackTraces = true
-        exceptionFormat = TestExceptionFormat.FULL
+tasks {
+    compileKotlin {
+        kotlinOptions {
+            jvmTarget = java_version
 
-        events(TestLogEvent.FAILED, TestLogEvent.SKIPPED, TestLogEvent.PASSED)
-
+            apiVersion = kotlinCompatibilityVersion
+            languageVersion = kotlinCompatibilityVersion
+        }
     }
-}
 
-tasks.compileKotlin{
-    kotlinOptions.jvmTarget = "${java_version}"
-}
+    compileTestKotlin {
+        kotlinOptions {
+            jvmTarget = java_version
+            apiVersion = kotlinCompatibilityVersion
+            languageVersion = kotlinCompatibilityVersion
+        }
+    }
 
-tasks.compileTestKotlin {
-    kotlinOptions.jvmTarget = "${java_version}"
+    test {
+        useJUnitPlatform()
+
+        testLogging {
+            showExceptions = true
+            showCauses = true
+            showStackTraces = true
+            showStandardStreams = true
+            exceptionFormat = TestExceptionFormat.FULL
+
+            events(TestLogEvent.FAILED, TestLogEvent.SKIPPED, TestLogEvent.PASSED)
+        }
+    }
 }

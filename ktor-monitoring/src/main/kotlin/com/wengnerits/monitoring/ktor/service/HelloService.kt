@@ -36,7 +36,7 @@ class HelloServiceImpl() : HelloService {
     }
 
     override fun hello() = "Welcome KTor monitoring example"
-    override fun name(n: String?): String = "Hello name:'$n'"
+    override fun name(n: String?): String = "Hello '$n'"
 
     override fun init(): Boolean {
         runBlocking {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022, Miroslav Wengner
+ * Copyright (c) 2022, Miroslav Wengner(mirage22), Christian Meyer (chrisme)
  *
  * fw-monitoring-examples is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,25 +31,25 @@ class MainController @Inject constructor(
         private val halloService: HalloService
 ) {
 
-    private val mainCounter = registry.counter("quarkus-main-counter", "application", "quarkus")
-    private val nameCounterBuilder = Counter.builder("quarkus-name-counter").tag("application", "quarkus")
+    private val helloCounter = registry.counter("hello-counter", "application", "quarkus-kt")
+    private val nameCounterBuilder = Counter.builder("name-counter").tag("application", "quarkus-kt")
     private val counters = mutableMapOf<String, Counter>()
 
     @GET
     @Produces("text/plain")
     fun hello(): String {
-        mainCounter.increment()
+        helloCounter.increment()
         return halloService.hallo()
     }
 
     @GET
     @Produces("text/plain")
-    @Path("hallo/{name}")
+    @Path("{name}")
     fun halloWithName(@PathParam("name") name: String): String {
         counters.getOrPut(name) {
             nameCounterBuilder.tag("name", name).register(registry)
         }.increment()
-        return "Hallo '$name'"
+        return "Hello '$name'"
     }
 
 }

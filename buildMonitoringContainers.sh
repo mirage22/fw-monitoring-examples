@@ -69,7 +69,7 @@ function parseArgs() {
             buildDockerImageByProjectName "DockerfileQuarkusJava" "quarkus-java-monitoring"
             ;;
         --quarkus-kotlin)
-            buildQuarkusKotlinImage "DockerfileQuarkusKotlin" "quarkus-kotlin-monitoring"
+            buildDockerImageByProjectName "DockerfileQuarkusKt" "quarkus-kotlin-monitoring"
             ;;
         --buildAll)
             buildDockerImageByProjectName "DockerfileKTor" "ktor-monitoring"

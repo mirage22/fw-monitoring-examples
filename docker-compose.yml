@@ -37,6 +37,12 @@ services:
     ports:
       - "3803:3803"
 
+  app-quarkus-kotlin:
+    image: quarkus-kotlin-monitoring:latest
+    restart: always
+    ports:
+      - "3806:3806"
+
   prometheus:
     image: prom/prometheus:v2.33.3
     restart: always
@@ -51,6 +57,7 @@ services:
       - app-spring-boot
       - app-spring-boot-kt
       - app-quarkus-java
+      - app-quarkus-kotlin
 
   grafana:
     image: grafana/grafana-oss:8.5.0-51645pre-ubuntu
@@ -69,4 +76,5 @@ services:
       - app-spring-boot
       - app-spring-boot-kt
       - app-quarkus-java
+      - app-quarkus-kotlin
       - prometheus

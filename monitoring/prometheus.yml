@@ -18,6 +18,10 @@ scrape_configs:
     metrics_path: /metrics
     static_configs:
       - targets: [ 'app-quarkus-java:3803' ]
+  - job_name: 'quarkus-kotlin-monitoring'
+    metrics_path: /metrics
+    static_configs:
+      - targets: [ 'app-quarkus-kotlin:3806' ]
   - job_name: 'spring-boot-kotlin-monitoring'
     metrics_path: /metrics
     static_configs:

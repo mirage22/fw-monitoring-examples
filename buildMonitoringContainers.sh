@@ -12,7 +12,7 @@ function statusMessage() {
   echo "$1 image: '$2' , arch:'${ARCH_TYPE}', dockerFile:'$3'"
 }
 
-function buildDockerImageByProjectName(){
+function buildDockerImageByProjectName() {
   if [[ -z "$1" && -z "$2" ]]; then
     displayHelp
     exit 1
@@ -28,7 +28,7 @@ function error_print() {
   echo "$@" >&2
 }
 
-function displayHelp(){
+function displayHelp() {
   echo "usage: $ ./${SCRIPT_NAME} with options:"
   {
     printf " \t%s\t%s\n" "--help" "show the help dialog"
@@ -38,11 +38,12 @@ function displayHelp(){
     printf " \t%s\t%s\n" "--spring-boot-java" "build Spring-Boot-Java docker image"
     printf " \t%s\t%s\n" "--spring-boot-kotlin" "build Spring-Boot-Kotlin docker image"
     printf " \t%s\t%s\n" "--quarkus-java" "build Quarkus-Java docker image"
+    printf " \t%s\t%s\n" "--quarkus-kotlin" "build Quarkus-Kotlin docker image"
     printf " \t%s\t%s\n" "--buildAll" "build all available images"
   } | column -ts $'\t'
 }
 
-function parseArgs(){
+function parseArgs() {
   while [ $# -gt 0 ]; do
       case "$1" in
         --help)
@@ -65,7 +66,10 @@ function parseArgs(){
             buildDockerImageByProjectName "DockerfileSpringBootKt" "spring-boot-kotlin-monitoring"
             ;;
         --quarkus-java)
-            buildDockerImageByProjectName "DockerfileQuarkusJava" "quarkus-monitoring"
+            buildDockerImageByProjectName "DockerfileQuarkusJava" "quarkus-java-monitoring"
+            ;;
+        --quarkus-kotlin)
+            buildQuarkusKotlinImage "DockerfileQuarkusKotlin" "quarkus-kotlin-monitoring"
             ;;
         --buildAll)
             buildDockerImageByProjectName "DockerfileKTor" "ktor-monitoring"
@@ -74,6 +78,7 @@ function parseArgs(){
             buildDockerImageByProjectName "DockerfileSpringBoot" "spring-boot-monitoring"
             buildDockerImageByProjectName "DockerfileSpringBootKt" "spring-boot-kotlin-monitoring"
             buildDockerImageByProjectName "DockerfileQuarkusJava" "quarkus-java-monitoring"
+            buildDockerImageByProjectName "DockerfileQuarkusKotlin" "quarkus-kotlin-monitoring"
             ;;
         *)
             error_print "unknown arguments: $@"

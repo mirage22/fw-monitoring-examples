@@ -12,12 +12,10 @@ repositories {
     mavenCentral()
 }
 
-val quarkusPlatformGroupId: String by project
-val quarkusPlatformArtifactId: String by project
-val quarkusPlatformVersion: String by project
+val quarkusVersion: String by project
 
 dependencies {
-    implementation(enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))
+    implementation(enforcedPlatform("io.quarkus.platform:quarkus-bom:${quarkusVersion}"))
     implementation("io.quarkus:quarkus-resteasy")
     implementation("io.quarkus:quarkus-kotlin")
     implementation("io.quarkus:quarkus-micrometer-registry-prometheus")
